@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier la transaction' : 'Ajouter une transaction' }}</h2>
+
+<mat-dialog-content>
+  <form class="transaction-form" #form="ngForm" (ngSubmit)="onSave()">
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select [(ngModel)]="transactionModel().type" name="type" required>
+        @for (type of transactionTypes; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="transactionModel().date" name="date" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Quantité</mat-label>
+      <input matInput type="number" [(ngModel)]="transactionModel().quantity" name="quantity" required min="0">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Prix</mat-label>
+      <input matInput type="number" [(ngModel)]="transactionModel().price" name="price" required min="0">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!form.valid">
+    {{ isEditMode ? 'Sauvegarder' : 'Ajouter' }}
+  </button>
+</mat-dialog-actions>

@@ -1,6 +1,8 @@
 HELP.md
 target/
 backend/.mvn/wrapper/maven-wrapper.jar
+frontend/befintax/node_modules/
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 

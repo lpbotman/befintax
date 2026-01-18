@@ -1,0 +1,92 @@
+<div class="container">
+
+  <mat-dialog-content>
+    <mat-stepper linear #stepper>
+      <mat-step [editable]="false">
+        <ng-template matStepLabel>Sélectionnez un actif</ng-template>
+        <form class="asset-form" (ngSubmit)="onSave()">
+
+          <p class="question">Sélectionnez votre type d'actif :</p>
+          <mat-chip-listbox [formField]="assetForm.type" class="asset-type-group" aria-label="Asset type">
+            @for (assetType of Object.values(AssetType); track assetType) {
+              <mat-chip-option [value]="assetType">
+                {{ assetType }}
+              </mat-chip-option>
+            }
+          </mat-chip-listbox>
+
+          <p class="question">Indiquez le nom de l'actif :</p>
+          <mat-form-field appearance="outline" class="asset-name-field">
+            <mat-label>Nom de l'asset</mat-label>
+            <input matInput  type="text" [formField]="assetForm.name"/>
+          </mat-form-field>
+
+          <div class="actions-btn">
+            <button matButton>Annuler</button>
+            <button matButton type="submit" class="primary">Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [editable]="false">
+        <ng-template matStepLabel>Taxation</ng-template>
+        <form class="asset-form" (ngSubmit)="onSave()">
+          <p class="question">Indiquez le taux de taxation pour la taxe boursière :</p>
+          <mat-form-field appearance="outline">
+            <input matInput  type="number" [formField]="assetForm.taxRatePercent"/>
+          </mat-form-field> %
+
+          <p class="question">La taxe boursière est directement prélevée par votre broker ?</p>
+          <mat-radio-group aria-label="Tax collected by broker" [formField]="assetForm.taxCollectedByBroker">
+            <mat-radio-button value="true">Oui</mat-radio-button>
+            <mat-radio-button value="false">Non</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="actions-btn">
+            <button matButton>Annuler</button>
+            <button matButton>Précédent</button>
+            <button matButton type="submit" class="primary">Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [editable]="false">
+        <ng-template matStepLabel>Ajoutez votre achat</ng-template>
+        <form class="asset-form" (ngSubmit)="onSave()">
+          <p class="question">A quelle date avez vous effectué cet achat ?</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Date d'achat</mat-label>
+            <input matInput type="date" [formField]="transactionForm.date" />
+          </mat-form-field>
+
+          <p class="question">Lors de cet achat, combien de parts avez-vous achetées ?</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Quantité</mat-label>
+            <input matInput type="number" [formField]="transactionForm.quantity" />
+          </mat-form-field>
+
+          <p class="question">Quel est le montant total de l'achat (hors frais du broker) ?</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Prix</mat-label>
+            <input matInput type="number" [formField]="transactionForm.price" />
+          </mat-form-field>
+
+          @if(showEnd2025Price){
+            <p class="question">Afin de calculer la taxe sur la plus-value, quelle était la valeur d'une part au 31/12/2025 ?</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Prix</mat-label>
+              <input matInput type="number" [formField]="assetForm.priceEnd2025" />
+            </mat-form-field>
+          }
+
+          <div class="actions-btn">
+            <button matButton>Annuler</button>
+            <button matButton>Précédent</button>
+            <button matButton type="submit" class="primary">Enregistrer</button>
+          </div>
+        </form>
+      </mat-step>
+
+    </mat-stepper>
+  </mat-dialog-content>
+</div>

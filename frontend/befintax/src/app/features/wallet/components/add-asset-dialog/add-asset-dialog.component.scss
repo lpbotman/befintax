@@ -1,0 +1,57 @@
+.container {
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.question{
+  font-weight:bold;
+}
+
+/***********************
+      SELECT ASSET
+ *********************$*/
+.asset-type-group {
+  display: flex;
+  gap: 8px;
+}
+
+mat-chip-option {
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f2f2f2;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+/* sélection */
+mat-chip-option.mat-mdc-chip-selected {
+  background: #3f51b5;
+  color: white;
+  font-weight: 600;
+}
+
+/* hover */
+mat-chip-option:hover {
+  background: #e0e0e0;
+}
+
+.asset-name-field {
+  width: 100%;
+}
+
+.actions-btn {
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  margin-top:15px;
+  gap:15px;
+}
+
+.actions-btn .primary {
+  background-color: #66b4e2;
+  color: white;
+
+}

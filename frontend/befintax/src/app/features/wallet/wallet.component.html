@@ -1,0 +1,106 @@
+<div class="container flex-column">
+  <div>
+    <h1>Votre portefeuille</h1>
+    Total : *****
+  </div>
+
+  <div class="global-actions-btn">
+    <button matFab extended (click)="openAddAssetDialog()" class="add-asset">
+      <mat-icon>add</mat-icon>
+      Ajouter un actif
+    </button>
+  </div>
+
+  <table mat-table
+         [dataSource]="assetsDatasource()" multiTemplateDataRows
+         class="mat-elevation-z8">
+
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef>Symbole</th>
+      <td mat-cell *matCellDef="let asset">{{asset.symbol ?? '-'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Dénomination</th>
+      <td mat-cell *matCellDef="let asset">{{asset.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalTransactions">
+      <th mat-header-cell *matHeaderCellDef>Nbr transactions</th>
+      <td mat-cell *matCellDef="let asset">{{asset.totalTransactions}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalValue">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let asset">{{asset.totalValue}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let asset">
+        <div [class]="'label-asset-type ' + 'label-asset-type-' + asset.type">
+          {{asset.type}}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+      <td mat-cell *matCellDef="let asset">
+        <button
+          mat-button
+          aria-label="expand row"
+          (click)="openAddTransactionDialog(asset.object);$event.stopPropagation()">
+          Achat
+        </button>
+        <button
+          mat-button
+          aria-label="expand row"
+          (click)="openAddTransactionDialog(asset.object);$event.stopPropagation()">
+          Vente
+        </button>
+      </td>
+    </ng-container>
+
+    <!--ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let asset">
+        <button
+          matIconButton
+          aria-label="expand row"
+          (click)="toggle(asset); $event.stopPropagation()">
+          <mat-icon>{{isExpanded(asset) ? 'expand_less' : 'expand_more'}}</mat-icon>
+        </button>
+      </td>
+    </ng-container-->
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let asset" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="asset-detail-wrapper flex-row" [class.asset-detail-wrapper-expanded]="isExpanded(asset)">
+          <div class="instrument">
+
+          </div>
+          <div class="transactions-list">
+            <mat-list>
+              @for (transaction of getTransactions(asset.name); track transaction.id) {
+                  <mat-list-item [class]="'transactions-list-item transactions-list-item-' + transaction.type">
+                    {{transaction.date | date: 'dd/MM/yyyy'}} {{transaction.type}} de {{transaction.quantity}} part(s) à {{transaction.price}} {{transaction.currency}}
+                  </mat-list-item>
+              }
+            </mat-list>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand" class="asset-row"></tr>
+    <tr mat-row *matRowDef="let asset; columns: columnsToDisplayWithExpand;"
+        [class.asset-expanded-row]="isExpanded(asset)"
+        class="cursor-pointer asset-row"
+        (click)="toggle(asset)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="asset-detail-row"></tr>
+  </table>
+
+</div>

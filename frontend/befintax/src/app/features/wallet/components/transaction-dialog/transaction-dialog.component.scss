@@ -1,0 +1,13 @@
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Ajoute de l'espace entre les champs du formulaire */
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-content {
+  overflow: visible; /* Empêche le date picker d'être coupé */
+}
