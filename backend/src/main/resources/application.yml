@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: befintax
+  datasource:
+    url: jdbc:postgresql://localhost:5432/befintax
+    username: befintax
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
