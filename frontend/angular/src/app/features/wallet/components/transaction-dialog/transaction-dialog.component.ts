@@ -13,12 +13,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import {AssetTransaction, TransactionType} from '../../../../core/models/asset.model';
+import {Asset, AssetTransaction, TransactionType} from '../../../../core/models/asset.model';
 import {DEFAULT_CREATE_TRANSACTION} from '../../models/AssetTransactionForm.model';
+import {WalletService} from '../../services/wallet.service';
 
 export interface TransactionDialogData {
   transaction?: AssetTransaction;
   assetId: number;
+  transactionType: TransactionType;
 }
 
 @Component({
@@ -42,12 +44,14 @@ export interface TransactionDialogData {
 export class TransactionDialogComponent {
   isEditMode: boolean;
   transactionModel = signal({... DEFAULT_CREATE_TRANSACTION});
-  transactionTypes = Object.values(TransactionType);
+  transactionDialogData: TransactionDialogData | undefined;
 
   constructor(
     public dialogRef: MatDialogRef<TransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TransactionDialogData
+    @Inject(MAT_DIALOG_DATA) public data: TransactionDialogData,
+    private walletService: WalletService
   ) {
+    this.transactionDialogData = data;
     this.isEditMode = !!data.transaction;
 
     if (this.isEditMode && data.transaction) {
@@ -56,9 +60,14 @@ export class TransactionDialogComponent {
   }
 
   onSave(): void {
-    if (this.transactionModel()) {
-      this.dialogRef.close(this.transactionModel());
+    if(!this.transactionDialogData || !this.transactionDialogData.assetId){
+      return;
     }
+
+    this.transactionModel().type = this.transactionDialogData.transactionType;
+
+    this.walletService.addTransaction(this.transactionDialogData.assetId, this.transactionModel());
+    this.dialogRef.close(this.transactionModel());
   }
 
   onCancel(): void {

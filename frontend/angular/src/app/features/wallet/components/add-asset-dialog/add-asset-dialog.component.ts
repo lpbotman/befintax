@@ -14,6 +14,9 @@ import {DEFAULT_CREATE_TRANSACTION} from '../../models/AssetTransactionForm.mode
 import {MatStep, MatStepLabel, MatStepper} from '@angular/material/stepper';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatChipListbox, MatChipOption} from '@angular/material/chips';
+import {WalletService} from '../../services/wallet.service';
+import {AssetCreateDto} from '../../dtos/asset-create.dto';
+import {AssetTransactionCreateDto} from '../../dtos/asset-transaction-create.dto';
 
 @Component({
   selector: 'app-add-asset-dialog',
@@ -39,15 +42,10 @@ export class AddAssetDialogComponent implements OnInit {
   private transactionModel = signal({...DEFAULT_CREATE_TRANSACTION});
   transactionForm= form(this.transactionModel);
 
-  constructor(public dialogRef: MatDialogRef<AddAssetDialogComponent>) {}
+  constructor(public dialogRef: MatDialogRef<AddAssetDialogComponent>, private walletService: WalletService) {}
 
   ngOnInit(): void {
   }
-
-  addValidationRules(){
-
-  }
-
 
   createAsset() {
     const assetFormValue = this.assetModel();
@@ -58,13 +56,25 @@ export class AddAssetDialogComponent implements OnInit {
       ...transactionFormValue,
     };
 
-    const asset: Asset = {
-      id: crypto.randomUUID() as any,
-      ...assetFormValue,
-      transactions: [transaction],
-      symbol: assetFormValue.symbol || undefined
-    };
-    return asset;
+    const transactionCreateDto: AssetTransactionCreateDto = {
+      date: transactionFormValue.date,
+      quantity: transactionFormValue.quantity,
+      price: transactionFormValue.price,
+      type: transactionFormValue.type,
+      currency: transactionFormValue.currency
+    }
+
+    const assetCreateDto: AssetCreateDto = {
+      name: assetFormValue.name,
+      type: assetFormValue.type,
+      taxCollectedByBroker: assetFormValue.taxCollectedByBroker,
+      stockTaxRate: assetFormValue.taxRatePercent,
+      symbol: assetFormValue.symbol,
+      priceEnd2025: assetFormValue.priceEnd2025,
+      transactions: [transactionCreateDto]
+    }
+
+    this.walletService.addAsset(assetCreateDto);
   }
 
 /*
@@ -106,8 +116,8 @@ export class AddAssetDialogComponent implements OnInit {
       if (this.transactionForm.date().valid() && this.transactionForm.quantity().valid()
         && this.transactionForm.price().valid() && this.assetForm.priceEnd2025().valid()) {
 
-        const asset = this.createAsset();
-        this.dialogRef.close(asset);
+        this.createAsset();
+        this.dialogRef.close();
       }
 
     }

@@ -28,6 +28,10 @@
   border-bottom: 1px solid #d4d3d3;
 }
 
+.asset-actions {
+  text-align: right;
+}
+
 .asset-detail-wrapper {
   overflow: hidden;
   display: grid;
@@ -64,8 +68,10 @@ tr.asset-detail-row {
 
 .instrument {
   width: 30%;
-  height:300px;
+  height:200px;
   background-color: #f1eeee;
+  margin: 15px;
+  border-radius: 10px;
 }
 
 .transactions-list {
@@ -74,6 +80,7 @@ tr.asset-detail-row {
 
 .transactions-list-item {
   margin: 5px;
+  height: 25px !important;
   font-size: 10px;
 }
 .transactions-list-item-BUY {

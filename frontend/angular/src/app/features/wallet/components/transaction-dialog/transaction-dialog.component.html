@@ -2,15 +2,8 @@
 
 <mat-dialog-content>
   <form class="transaction-form" #form="ngForm" (ngSubmit)="onSave()">
-    <mat-form-field appearance="outline">
-      <mat-label>Type</mat-label>
-      <mat-select [(ngModel)]="transactionModel().type" name="type" required>
-        @for (type of transactionTypes; track type) {
-          <mat-option [value]="type">{{ type }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
 
+    <p>Indiquez la date d'exécution de la transaction :</p>
     <mat-form-field appearance="outline">
       <mat-label>Date</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="transactionModel().date" name="date" required>
@@ -18,11 +11,13 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <p>Combien de parts avez vous acheté/vendu ? </p>
     <mat-form-field appearance="outline">
       <mat-label>Quantité</mat-label>
       <input matInput type="number" [(ngModel)]="transactionModel().quantity" name="quantity" required min="0">
     </mat-form-field>
 
+    <p>Indiquez le montant total de la transaction (hors frais bancaires) :</p>
     <mat-form-field appearance="outline">
       <mat-label>Prix</mat-label>
       <input matInput type="number" [(ngModel)]="transactionModel().price" name="price" required min="0">

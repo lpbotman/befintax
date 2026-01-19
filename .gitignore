@@ -1,7 +1,8 @@
 HELP.md
 target/
 backend/.mvn/wrapper/maven-wrapper.jar
-frontend/befintax/node_modules/
+frontend/angular/node_modules/
+frontend/angular/.angular/
 
 !**/src/main/**/target/
 !**/src/test/**/target/

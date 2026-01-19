@@ -12,6 +12,7 @@ public record AssetDTO(
         AssetType type,
         Boolean taxCollectedByBroker,
         BigDecimal stockTaxRate,
+        BigDecimal priceEnd2025,
         List<AssetTransactionDTO> transactions
 ) {}
 

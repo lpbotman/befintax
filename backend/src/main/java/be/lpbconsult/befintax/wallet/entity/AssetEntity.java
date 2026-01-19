@@ -23,6 +23,8 @@ public class AssetEntity {
 
     private Boolean taxCollectedByBroker;
     private BigDecimal stockTaxRate; // ex: 0.35
+    private BigDecimal priceEnd2025;
+
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssetTransactionEntity> transactions = new ArrayList<>();
@@ -81,6 +83,12 @@ public class AssetEntity {
 
     public void setTransactions(List<AssetTransactionEntity> transactions) {
         this.transactions = transactions;
+    }
+
+    public BigDecimal getPriceEnd2025() {return priceEnd2025;}
+
+    public void setPriceEnd2025(BigDecimal priceEnd2025) {
+        this.priceEnd2025 = priceEnd2025;
     }
 }
 
