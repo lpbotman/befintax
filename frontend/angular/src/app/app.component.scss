@@ -1,0 +1,32 @@
+.container {
+  width: 70%;
+  margin: 30px auto;
+}
+
+.menu{
+  max-width: 250px;
+  flex-grow: 1;
+  justify-items: flex-end;
+}
+
+.menu mat-nav-list {
+  border: 1px solid #dbd9d9;
+  border-radius: 15px;
+  padding: 20px 10px;
+  justify-content: flex-end;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+mat-icon{
+  vertical-align: middle;
+}
+
+.menu-title {
+  text-align: end;
+}
+
+.content {
+  //flex-grow: 3;
+  width:100%;
+}

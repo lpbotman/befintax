@@ -16,7 +16,6 @@ export class WalletService {
 
   loadAssets() {
     this.assetApi.getAssets().subscribe((list: Asset[]) => {
-      console.log(list);
       this.assets.set(list)
     });
   }
