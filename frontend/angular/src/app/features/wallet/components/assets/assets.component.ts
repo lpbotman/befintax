@@ -1,4 +1,4 @@
-import {Component, OnInit, effect, computed, signal} from '@angular/core';
+import {Component, effect, computed, signal} from '@angular/core';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {
@@ -13,11 +13,11 @@ import {MatIcon} from '@angular/material/icon';
 import {DatePipe} from '@angular/common';
 import {MatList, MatListItem} from '@angular/material/list';
 import {MatSort, MatSortHeader, Sort} from '@angular/material/sort';
-import {WalletService} from '../../../services/wallet.service';
-import {Asset} from '../../../../../core/models/asset.model';
-import {AddAssetDialogComponent} from '../../add-asset-dialog/add-asset-dialog.component';
-import {TransactionType} from '../../../../../core/models/asset.model';
-import {TransactionDialogComponent} from '../../transaction-dialog/transaction-dialog.component';
+import {WalletService} from '../../services/wallet.service';
+import {Asset} from '../../../../core/models/asset.model';
+import {AddAssetDialogComponent} from '../add-asset-dialog/add-asset-dialog.component';
+import {TransactionType} from '../../../../core/models/asset.model';
+import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 
 @Component({
   selector: 'app-assets',

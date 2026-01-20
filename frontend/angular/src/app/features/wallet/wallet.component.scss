@@ -20,3 +20,8 @@
 ::ng-deep .mat-mdc-tab-body {
   height: 100% !important;
 }
+
+::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color:#66b4e2 !important;
+  border-top-width: var(--mat-tab-active-indicator-height, 4px) !important;
+}

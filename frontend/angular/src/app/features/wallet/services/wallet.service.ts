@@ -5,6 +5,9 @@ import { AssetTransactionApiService } from '../../../core/services/asset-transac
 import { Asset, AssetTransaction } from '../../../core/models/asset.model';
 import { signal } from '@angular/core';
 import {AssetTransactionCreateDto} from '../dtos/asset-transaction-create.dto';
+import {AssetTransactionTaxDto} from '../dtos/asset-transaction-tax.dto';
+import {TaxesApiService} from '../../../core/services/taxes-api.service';
+import {firstValueFrom} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +15,12 @@ import {AssetTransactionCreateDto} from '../dtos/asset-transaction-create.dto';
 export class WalletService {
   assets = signal<Asset[]>([]);
 
-  constructor(private assetApi: AssetApiService, private transactionApi: AssetTransactionApiService) {}
+  constructor(private assetApi: AssetApiService, private transactionApi: AssetTransactionApiService,
+              private taxesApi: TaxesApiService) {}
 
-  loadAssets() {
-    this.assetApi.getAssets().subscribe((list: Asset[]) => {
-      this.assets.set(list)
-    });
+  async loadAssets() {
+    const list = await firstValueFrom(this.assetApi.getAssets());
+    this.assets.set(list);
   }
 
   addAsset(dto: AssetCreateDto) {

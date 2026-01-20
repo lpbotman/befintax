@@ -10,8 +10,16 @@
         <app-assets></app-assets>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Taxe boursière">Taxe boursière</mat-tab>
-    <mat-tab label="Taxe plus-value">Taxe sur plus-value</mat-tab>
+    <mat-tab label="Taxe boursière">
+      <ng-template matTabContent>
+        <app-assets-transactions-tax></app-assets-transactions-tax>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Taxe plus-value">
+      <ng-template matTabContent>
+        <app-capital-gains-tax></app-capital-gains-tax>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 
 </div>
