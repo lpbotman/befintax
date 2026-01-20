@@ -10,6 +10,7 @@ import be.lpbconsult.befintax.wallet.repository.AssetRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,9 +28,10 @@ public class AssetService {
         this.assetTransactionMapper = assetTransactionMapper;
     }
 
-    @Transactional
     public AssetDTO createAsset(AssetCreateDTO dto) {
         AssetEntity asset = assetMapper.toEntity(dto);
+        asset.setTransactions(new ArrayList<>());
+        assetRepository.save(asset);
 
         if (dto.transactions() != null) {
             List<AssetTransactionEntity> transactions = dto.transactions().stream()
@@ -41,9 +43,9 @@ public class AssetService {
                     .toList();
 
             asset.getTransactions().addAll(transactions);
+            assetRepository.save(asset);
         }
 
-        assetRepository.save(asset);
         return assetMapper.toDto(asset);
     }
 

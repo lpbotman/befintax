@@ -14,7 +14,9 @@ public interface AssetTransactionRepository extends JpaRepository<AssetTransacti
 
     @Query("SELECT t FROM AssetTransactionEntity t WHERE " +
             "(CAST(:beginDate AS date) IS NULL OR t.date >= :beginDate) AND " +
-            "(CAST(:endDate AS date) IS NULL OR t.date <= :endDate)")
+            "(CAST(:endDate AS date) IS NULL OR t.date <= :endDate) AND " +
+            "t.price > 0 AND t.asset.stockTaxRate > 0 AND " +
+            "t.asset.taxCollectedByBroker = false")
     List<AssetTransactionEntity> findTransactionsWhereTaxNotCollectedByBroker(
             @Param("beginDate") LocalDate beginDate,
             @Param("endDate") LocalDate endDate);

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,8 @@ public class AssetTransactionService {
                 .map(transaction -> {
 
                     BigDecimal tax = transaction.getPrice()
-                            .multiply(transaction.getAsset().getStockTaxRate());
+                            .multiply(transaction.getAsset().getStockTaxRate())
+                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
                     return new AssetTransactionTaxDTO(
                             transaction.getId(),

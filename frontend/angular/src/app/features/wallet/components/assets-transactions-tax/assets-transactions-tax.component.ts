@@ -11,6 +11,13 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
+import {CurrencyPipe} from '@angular/common';
+import {
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-assets-transactions-tax',
@@ -24,7 +31,12 @@ import {
     MatHeaderRow,
     MatRow,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    CurrencyPipe,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription
   ],
   templateUrl: './assets-transactions-tax.component.html',
   styleUrl: './assets-transactions-tax.component.scss',
