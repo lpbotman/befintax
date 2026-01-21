@@ -1,3 +1,12 @@
+.title-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 20px;
+  align-items: center;
+  margin: 20px;
+}
+
 .warning-text {
   display: flex;
   flex-direction: row;
@@ -5,7 +14,6 @@
   padding:5px 15px;
   border-radius: 5px;
   align-items: center;
-  margin-top:20px;
 }
 
 mat-icon{
@@ -46,3 +54,12 @@ mat-panel-title{
   justify-content: space-between;
   margin: 20px;
 }
+.month-picker{
+  margin-top: 20px;
+  width:150px;
+  padding-bottom:20px;
+}
+.month-picker-date .mat-calendar-period-button {
+  pointer-events: none;
+}
+

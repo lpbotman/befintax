@@ -1,12 +1,31 @@
+<div class="title-container">
+  <span>
+    Taxe boursière de {{ yearMonthSelected.value?.toJSDate() | date: 'MMMM yyyy' | titlecase }}
+  </span>
+  <mat-form-field appearance="outline" class="month-picker">
+    <mat-label>Période concernée</mat-label>
+    <input matInput [matDatepicker]="dp" [formControl]="yearMonthSelected" readonly>
+    <mat-hint>MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    startView="multi-year"
+                    (monthSelected)="setMonthAndYear($event, dp)"
+                    panelClass="month-picker-date">
+    </mat-datepicker>
+  </mat-form-field>
+</div>
+
+
 <div class="warning-text">
   <mat-icon>help_outline</mat-icon>
   <span>
-      Les montants indiqués ci-dessous sont calculés sur base des transactions d'achat et de vente réalisée dans la période spécifiée
-  et pour lesquels vous avez préciser que votre organisme de paiement n'a pas prélevé la taxe boursière automatiquement.
+      Les montants indiqués ci-dessous sont calculés sur base des transactions d'achat et de vente réalisées dans la période spécifiée
+  et pour lesquels vous avez précisé que votre organisme de paiement n'a pas prélevé la taxe boursière automatiquement.
   </span>
 </div>
 
-@for(group of groups(); track group.taxRate) {
+@if(!isLoadingTransactions()) {
+  @for(group of groups(); track group.taxRate) {
     <mat-card>
       <mat-card-title>
         Sur base d'un taux à {{ group.taxRate }}%
@@ -15,7 +34,7 @@
         <div class="tax-rate-summary">
           <span>Transactions : {{group.total.count}}</span>
           <span>Montant total : {{group.total.totalPrice | currency: 'EUR'}}</span>
-          <span>Tax à payer :{{group.total.totalTaxAmount | currency: 'EUR'}}</span>
+          <span>Tax à payer : {{group.total.totalTaxAmount | currency: 'EUR'}}</span>
         </div>
 
 
@@ -62,3 +81,15 @@
     </mat-card>
 
   }
+
+  <mat-card>
+    @if(groups().length === 0) {
+      <p style="font-style: italic">Aucune transaction nécessitant un calcul de taxe boursière n’a été trouvée (certaines taxes ont déjà été prélevées par le broker).</p>
+    } @else {
+     <mat-card-title>TOTAL : {{ totalTaxAmount | currency: 'EUR' }}</mat-card-title>
+    }
+  </mat-card>
+}
+@else {
+  <mat-spinner></mat-spinner>
+}

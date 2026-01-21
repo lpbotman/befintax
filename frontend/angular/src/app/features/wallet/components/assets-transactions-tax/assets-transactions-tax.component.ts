@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, NgZone, OnInit, signal} from '@angular/core';
 import {firstValueFrom} from 'rxjs';
 import {TaxesApiService} from '../../../../core/services/taxes-api.service';
 import {AssetTransactionTaxDto} from '../../dtos/asset-transaction-tax.dto';
@@ -11,16 +11,27 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import {CurrencyPipe} from '@angular/common';
+import {CurrencyPipe, DatePipe, TitleCasePipe} from '@angular/common';
 import {
-  MatAccordion,
   MatExpansionPanel,
-  MatExpansionPanelDescription,
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
-import {MatIcon} from '@angular/material/icon';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatFormField, MatHint, MatInput, MatInputModule, MatLabel} from '@angular/material/input';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from '@angular/material/datepicker';
+import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DateTime} from 'luxon';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {YEARMONTH_FORMATS} from '../../../../app.config';
 
 @Component({
   selector: 'app-assets-transactions-tax',
@@ -39,12 +50,26 @@ import {MatIcon} from '@angular/material/icon';
     MatExpansionPanel,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatExpansionPanelDescription,
-    MatAccordion,
     MatCardContent,
     MatCard,
     MatCardTitle,
-    MatIcon
+    MatIcon,
+    MatIconModule,
+    MatFormField,
+    MatLabel,
+    MatDatepickerInput,
+    MatHint,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatInput,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    FormsModule,
+    DatePipe,
+    TitleCasePipe,
+    MatProgressSpinner,
   ],
   templateUrl: './assets-transactions-tax.component.html',
   styleUrl: './assets-transactions-tax.component.scss',
@@ -54,9 +79,9 @@ export class AssetsTransactionsTaxComponent implements OnInit{
   groups = signal<TaxRateGroup[]>([]);
 
   displayedColumns = ['date', 'price', 'taxAmount'];
-  dataSource = new MatTableDataSource<TransactionRow>([]);
+  isLoadingTransactions = signal<boolean>(false);
 
-  constructor(private taxesService: TaxesApiService) {}
+  constructor(private taxesService: TaxesApiService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     const now = new Date();
@@ -67,15 +92,35 @@ export class AssetsTransactionsTaxComponent implements OnInit{
   }
 
   async loadTransactions(beginDate: Date, endDate: Date) {
-    const transactions = await firstValueFrom(
-      this.taxesService.calculateAssetsTransactionTax(beginDate, endDate)
-    );
+    this.isLoadingTransactions.set(true);
 
-    this.groups.set(this.prepareGroups(transactions));
+    this.taxesService.calculateAssetsTransactionTax(beginDate, endDate)
+      .subscribe(transactions => {
+        this.groups.set(this.prepareGroups(transactions));
+        this.isLoadingTransactions.set(false);
+      });
   }
 
-  isTotal(row: TransactionRow) {
-    return row.type === 'total';
+  readonly yearMonthSelected = new FormControl<DateTime>(DateTime.now());
+
+  setMonthAndYear(normalizedMonthAndYear: DateTime, datepicker: MatDatepicker<DateTime>) {
+    const ctrlValue = DateTime.fromObject({
+      month: normalizedMonthAndYear.month,
+      year: normalizedMonthAndYear.year,
+    });
+    this.yearMonthSelected.setValue(ctrlValue);
+    datepicker.close();
+
+    const month = this.yearMonthSelected.value?.toJSDate().getMonth();
+    const year = this.yearMonthSelected.value?.toJSDate().getFullYear();
+
+
+    if (year !== undefined && month !== undefined) {
+      const beginDate = new Date(year, month, 1);
+      const endDate = new Date(year, month + 1, 0);
+
+      this.loadTransactions(beginDate, endDate);
+    }
   }
 
   prepareGroups(transactions: AssetTransactionTaxDto[]): TaxRateGroup[] {
@@ -111,43 +156,8 @@ export class AssetsTransactionsTaxComponent implements OnInit{
     return groups.sort((a, b) => a.taxRate - b.taxRate);
   }
 
-  prepareMatTableRows(transactions: AssetTransactionTaxDto[]): TransactionRow[] {
-    const groupsMap = new Map<number, AssetTransactionTaxDto[]>();
-
-    for (const tx of transactions) {
-      const list = groupsMap.get(tx.taxRate) || [];
-      list.push(tx);
-      groupsMap.set(tx.taxRate, list);
-    }
-
-    const rows: TransactionRow[] = [];
-
-    for (const [taxRate, txList] of groupsMap.entries()) {
-      const sorted = txList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-      // Ajouter les transactions
-      sorted.forEach(tx => rows.push({
-        type: 'transaction',
-        date: tx.date,
-        price: tx.price,
-        taxAmount: tx.taxAmount,
-        taxRate: tx.taxRate
-      }));
-
-      // Ajouter la ligne total
-      const totalPrice = sorted.reduce((sum, t) => sum + t.price, 0);
-      const totalTaxAmount = sorted.reduce((sum, t) => sum + t.taxAmount, 0);
-
-      rows.push({
-        type: 'total',
-        taxRate,
-        count: sorted.length,
-        totalPrice,
-        totalTaxAmount
-      });
-    }
-
-    return rows.sort((a, b) => a.taxRate - b.taxRate);
+  get totalTaxAmount(): number {
+    return this.groups().reduce((sum, group) => sum + group.total.totalTaxAmount, 0);
   }
 
 }
