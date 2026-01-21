@@ -1,14 +1,48 @@
+.warning-text {
+  display: flex;
+  flex-direction: row;
+  background-color:#dbe5f8;
+  padding:5px 15px;
+  border-radius: 5px;
+  align-items: center;
+  margin-top:20px;
+}
+
+mat-icon{
+  width:60px;
+}
 
 .total-row {
   font-weight: bold;
   background-color: #f0f0f0;
 }
 
+mat-card {
+  margin-top: 20px;
+  padding:20px;
+  box-shadow: none !important;
+}
+
+mat-card-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
 mat-expansion-panel{
-  margin: 20px 0;
+  box-shadow: none !important;
+}
+
+mat-panel-title{
+  font-size: 12px;
 }
 
 .title-description{
   display: flex;
   justify-content: space-between;
+}
+
+.tax-rate-summary {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
 }

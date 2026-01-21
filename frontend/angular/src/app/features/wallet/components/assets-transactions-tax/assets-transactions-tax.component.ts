@@ -13,11 +13,14 @@ import {
 } from '@angular/material/table';
 import {CurrencyPipe} from '@angular/common';
 import {
+  MatAccordion,
   MatExpansionPanel,
   MatExpansionPanelDescription,
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from '@angular/material/expansion';
+import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-assets-transactions-tax',
@@ -36,7 +39,12 @@ import {
     MatExpansionPanel,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatExpansionPanelDescription
+    MatExpansionPanelDescription,
+    MatAccordion,
+    MatCardContent,
+    MatCard,
+    MatCardTitle,
+    MatIcon
   ],
   templateUrl: './assets-transactions-tax.component.html',
   styleUrl: './assets-transactions-tax.component.scss',
