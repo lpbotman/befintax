@@ -9,9 +9,10 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/befintax
       SPRING_DATASOURCE_USERNAME: befintax
-      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_DATASOURCE_PASSWORD: ze3445dfSEEZ!ggk9
     depends_on:
       - frontend
     networks:

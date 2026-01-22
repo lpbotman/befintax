@@ -17,10 +17,7 @@ cd backend
 cd ..
 
 # -------- DOCKER --------
-echo "🐳 Building Docker images..."
-docker compose build
-
-echo "▶️ Starting containers..."
-docker compose up -d
+echo "🐳 Building and starting Docker containers..."
+docker compose up -d --build
 
 echo "✅ Deploy finished!"

@@ -1,12 +1,3 @@
 spring:
   application:
     name: befintax
-  datasource:
-    url: jdbc:postgresql://postgres:5432/befintax
-    username: befintax
-    password: secret
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
