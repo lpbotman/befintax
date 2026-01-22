@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/befintax}
+    url: jdbc:postgresql://localhost:5432/befintax
     username: ${SPRING_DATASOURCE_USERNAME:befintax}
     password: ${SPRING_DATASOURCE_PASSWORD:secret}
   jpa:
