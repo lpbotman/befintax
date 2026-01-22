@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: befintax-postgres
+    environment:
+      POSTGRES_DB: befintax
+      POSTGRES_USER: befintax
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - befintax-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: befintax-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/befintax
+      SPRING_DATASOURCE_USERNAME: befintax
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - befintax-network
+
+  frontend:
+    build:
+      context: ./frontend/angular
+      dockerfile: Dockerfile
+    container_name: befintax-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - befintax-network
+
+volumes:
+  postgres-data:
+
+networks:
+  befintax-network:
+    driver: bridge

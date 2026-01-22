@@ -3,6 +3,7 @@ target/
 backend/.mvn/wrapper/maven-wrapper.jar
 frontend/angular/node_modules/
 frontend/angular/.angular/
+frontend/angular/dist/
 
 !**/src/main/**/target/
 !**/src/test/**/target/
