@@ -1,11 +1,14 @@
 # -----------------------------
-# Étape 1 : Builder Maven avec JDK 20
+# Étape 1 : Builder Maven
 # -----------------------------
 FROM maven:3.9.2-eclipse-temurin-20 AS builder
 WORKDIR /app
 
-# Copie tout le backend dans le container
-COPY . .
+# Copier uniquement le dossier backend
+COPY backend/ ./backend/
+
+# Aller dans le sous-dossier backend
+WORKDIR /app/backend
 
 # Build Maven, skip tests
 RUN mvn clean package -DskipTests
@@ -16,8 +19,8 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# Copie le JAR généré depuis l'étape builder
-COPY --from=builder /app/target/befintax-0.0.1-SNAPSHOT.jar app.jar
+# Copier le JAR généré depuis l'étape builder
+COPY --from=builder /app/backend/target/befintax-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose le port de Spring Boot
 EXPOSE 8080
