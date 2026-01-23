@@ -1,13 +1,13 @@
 # -----------------------------
 # Étape 1 : Builder Maven
 # -----------------------------
-FROM maven:3.9.1-eclipse-temurin-21 AS builder
+FROM maven:3.9.2-jdk-21 AS builder
 WORKDIR /app
 
 # Copie tout le backend dans le container
 COPY . .
 
-# Build Maven, skip les tests pour gagner du temps
+# Build Maven, skip tests
 RUN mvn clean package -DskipTests
 
 # -----------------------------
