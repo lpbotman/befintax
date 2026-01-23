@@ -1,13 +1,21 @@
-# Build stage
-FROM node:20-alpine as builder
+# Étape 1 : builder Angular
+FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
+
+# Copier uniquement package.json et package-lock.json pour le cache npm
+COPY frontend/angular/package*.json ./
+
+# Installer les dépendances
 RUN npm install
-COPY . .
+
+# Copier le reste du frontend
+COPY frontend/angular/ ./
+
+# Build Angular en prod
 RUN npm run build --prod
 
-# Serve stage
+# Étape 2 : image finale Nginx
 FROM nginx:alpine
-COPY --from=builder /app/dist/befintax/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/ /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
