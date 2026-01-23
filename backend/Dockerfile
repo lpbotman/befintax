@@ -1,7 +1,7 @@
 # -----------------------------
-# Étape 1 : Builder Maven
+# Étape 1 : Builder Maven avec JDK 20
 # -----------------------------
-FROM maven:3.9.2-jdk-21 AS builder
+FROM maven:3.9.2-eclipse-temurin-20 AS builder
 WORKDIR /app
 
 # Copie tout le backend dans le container
