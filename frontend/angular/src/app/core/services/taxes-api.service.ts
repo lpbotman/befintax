@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from '@angular/common/http';
 import {AssetTransactionTaxDto} from '../../features/wallet/dtos/asset-transaction-tax.dto';
+import {TaxGainCalculationDto} from '../../features/wallet/dtos/TaxGainCalculation.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class TaxesApiService {
     return this.http.get<AssetTransactionTaxDto[]>(
       `${this.baseUrl}/taxes/assets-transactions?beginDate=${beginStr}&endDate=${endStr}`
     );
+  }
+
+  calculateTaxGain(year: number) {
+    return this.http.get<TaxGainCalculationDto>(`${this.baseUrl}/taxes/gain/${year}`);
   }
 }

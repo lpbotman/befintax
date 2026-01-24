@@ -1,5 +1,4 @@
-import {Component, NgZone, OnInit, signal} from '@angular/core';
-import {firstValueFrom} from 'rxjs';
+import {Component, NgZone, OnDestroy, OnInit, signal} from '@angular/core';
 import {TaxesApiService} from '../../../../core/services/taxes-api.service';
 import {AssetTransactionTaxDto} from '../../dtos/asset-transaction-tax.dto';
 import {
@@ -9,7 +8,6 @@ import {
   MatHeaderCell,
   MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable,
-  MatTableDataSource
 } from '@angular/material/table';
 import {CurrencyPipe, DatePipe, TitleCasePipe} from '@angular/common';
 import {
@@ -26,12 +24,11 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
-import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {YEARMONTH_FORMATS} from '../../../../app.config';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-assets-transactions-tax',
@@ -74,14 +71,15 @@ import {YEARMONTH_FORMATS} from '../../../../app.config';
   templateUrl: './assets-transactions-tax.component.html',
   styleUrl: './assets-transactions-tax.component.scss',
 })
-export class AssetsTransactionsTaxComponent implements OnInit{
+export class AssetsTransactionsTaxComponent implements OnInit, OnDestroy{
 
   groups = signal<TaxRateGroup[]>([]);
 
   displayedColumns = ['date', 'price', 'taxAmount'];
   isLoadingTransactions = signal<boolean>(false);
 
-  constructor(private taxesService: TaxesApiService, private ngZone: NgZone) {}
+  private destroy$ = new Subject<void>();
+  constructor(private taxesService: TaxesApiService) {}
 
   ngOnInit(): void {
     const now = new Date();
@@ -94,7 +92,7 @@ export class AssetsTransactionsTaxComponent implements OnInit{
   async loadTransactions(beginDate: Date, endDate: Date) {
     this.isLoadingTransactions.set(true);
 
-    this.taxesService.calculateAssetsTransactionTax(beginDate, endDate)
+    this.taxesService.calculateAssetsTransactionTax(beginDate, endDate).pipe(takeUntil(this.destroy$))
       .subscribe(transactions => {
         this.groups.set(this.prepareGroups(transactions));
         this.isLoadingTransactions.set(false);
@@ -160,6 +158,10 @@ export class AssetsTransactionsTaxComponent implements OnInit{
     return this.groups().reduce((sum, group) => sum + group.total.totalTaxAmount, 0);
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 
 export interface TaxRateGroup {
