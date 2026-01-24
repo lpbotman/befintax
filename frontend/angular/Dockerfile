@@ -9,7 +9,8 @@ COPY frontend/angular/package*.json ./
 RUN npm install
 
 # Copier tout le contenu du dossier frontend/angular
-COPY frontend/angular/ ./
+# COPY frontend/angular/ ./
+COPY . ./
 
 # Build Angular
 RUN npm run build --prod
