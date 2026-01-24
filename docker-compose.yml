@@ -6,28 +6,33 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: befintax-backend
+    restart: unless-stopped
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/befintax
       SPRING_DATASOURCE_USERNAME: befintax
-      SPRING_DATASOURCE_PASSWORD: ze3445dfSEEZ!ggk9
-    depends_on:
-      - frontend
+      SPRING_DATASOURCE_PASSWORD: "SFGRe35f6hHj" # On met des guillemets pour le caractère spécial '!'
     networks:
       - befintax-network
+      - postgres_postgres-network # Ajout indispensable pour atteindre la DB
 
   frontend:
     build:
       context: ./frontend/angular
       dockerfile: Dockerfile
     container_name: befintax-frontend
+    restart: unless-stopped
     ports:
-      - "4200:80"
+      - "80:80" # On repasse sur le port 80 pour que ton localhost soit propre
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Injection de la config pour le dossier /browser
     networks:
       - befintax-network
 
 networks:
   befintax-network:
+    external: true
+  postgres_postgres-network: # Déclarer le réseau de ta DB
     external: true
