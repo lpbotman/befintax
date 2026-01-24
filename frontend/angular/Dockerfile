@@ -3,7 +3,8 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # On copie les fichiers de configuration depuis le dossier frontend/angular
-COPY frontend/angular/package*.json ./
+# COPY frontend/angular/package*.json ./
+COPY package*.json ./
 
 # Installer les dépendances
 RUN npm install
