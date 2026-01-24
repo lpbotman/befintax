@@ -5,7 +5,9 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
 # Copier le dossier backend
-COPY backend/ ./backend/
+# COPY backend/ ./backend/
+COPY . ./
+
 WORKDIR /app/backend
 
 # Build
