@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {TaxesApiService} from '../../../../core/services/taxes-api.service';
 import {Subject, takeUntil} from 'rxjs';
 import {TaxGainCalculationDto} from '../../dtos/TaxGainCalculation.dto';
@@ -54,7 +54,7 @@ import {
 })
 export class CapitalGainsTaxComponent implements OnInit, OnDestroy{
 
-  taxGainCalculation: TaxGainCalculationDto | undefined;
+  taxGainCalculation = signal<TaxGainCalculationDto | undefined>(undefined);
   private destroy$ = new Subject<void>();
 
   displayedColumns: string[] = ['date', 'asset', 'qty', 'cost', 'sell', 'gain'];
@@ -63,7 +63,7 @@ export class CapitalGainsTaxComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
         this.taxesService.calculateTaxGain(2026).pipe(takeUntil(this.destroy$)).subscribe(taxGainCalculation => {
-          this.taxGainCalculation = taxGainCalculation;
+          this.taxGainCalculation.set(taxGainCalculation);
           console.log(taxGainCalculation)
         });
     }

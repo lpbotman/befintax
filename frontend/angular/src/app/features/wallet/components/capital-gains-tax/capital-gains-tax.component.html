@@ -8,100 +8,101 @@
   </mat-card-header>
 
   <mat-card-content>
-
-    <div class="row info-row">
-      <span class="label text-muted">Total des gains (historique)</span>
-      <span class="value text-muted">{{taxGainCalculation?.totalGrossGain | currency: 'EUR'}}</span>
-    </div>
-
-    <mat-divider class="spacer"></mat-divider>
-
-    <div class="calculation-block">
-      <div class="row">
-        <span class="label">Base taxable (après photo 2025)</span>
-        <span class="value">{{taxGainCalculation?.totalTaxableGain | currency: 'EUR'}}</span>
+    @if(taxGainCalculation(); as taxGainCalculation){
+      <div class="row info-row">
+        <span class="label text-muted">Total des gains (historique)</span>
+        <span class="value text-muted">{{taxGainCalculation.totalGrossGain | currency: 'EUR'}}</span>
       </div>
 
-      <div class="row deduction">
+      <mat-divider class="spacer"></mat-divider>
+
+      <div class="calculation-block">
+        <div class="row">
+          <span class="label">Base taxable (après photo 2025)</span>
+          <span class="value">{{taxGainCalculation.totalTaxableGain | currency: 'EUR'}}</span>
+        </div>
+
+        <div class="row deduction">
         <span class="label">
           <mat-icon inline>remove_circle_outline</mat-icon> Exemption appliquée
         </span>
-        <span class="value">- {{taxGainCalculation?.exemptionApplied | currency: 'EUR'}}</span>
+          <span class="value">- {{taxGainCalculation.exemptionApplied | currency: 'EUR'}}</span>
+        </div>
+
+        <div class="row total-line">
+          <span class="label">Total net taxable</span>
+          <span class="value">{{taxGainCalculation.finalTaxableBase | currency: 'EUR'}}</span>
+        </div>
       </div>
 
-      <div class="row total-line">
-        <span class="label">Total net taxable</span>
-        <span class="value">{{taxGainCalculation?.finalTaxableBase | currency: 'EUR'}}</span>
+      <div class="final-result">
+        <div class="result-label">Taxe estimée (10%)</div>
+        <div class="result-value">{{taxGainCalculation.estimatedTax | currency: 'EUR'}}</div>
       </div>
-    </div>
-
-    <div class="final-result">
-      <div class="result-label">Taxe estimée (10%)</div>
-      <div class="result-value">{{taxGainCalculation?.estimatedTax | currency: 'EUR'}}</div>
-    </div>
+    }
 
   </mat-card-content>
 
   <mat-expansion-panel class="flat-panel">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Détail des transactions ({{taxGainCalculation?.transactions?.length || 0}})
+        Détail des transactions ({{taxGainCalculation()?.transactions?.length || 0}})
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <table mat-table [dataSource]="taxGainCalculation?.transactions ?? []" class="w-100">
+    @if((taxGainCalculation()?.transactions ?? []).length > 0){
+      <table mat-table [dataSource]="taxGainCalculation()?.transactions ?? []" class="w-100">
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let t"> {{t.date | date:'dd/MM/yyyy'}} </td>
-      </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let t"> {{t.date | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="asset">
-        <th mat-header-cell *matHeaderCellDef> Actif </th>
-        <td mat-cell *matCellDef="let t" class="fw-bold"> {{t.assetName}} </td>
-      </ng-container>
+        <ng-container matColumnDef="asset">
+          <th mat-header-cell *matHeaderCellDef> Actif </th>
+          <td mat-cell *matCellDef="let t" class="fw-bold"> {{t.assetName}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="qty">
-        <th mat-header-cell *matHeaderCellDef> Qté </th>
-        <td mat-cell *matCellDef="let t"> {{t.quantity}} </td>
-      </ng-container>
+        <ng-container matColumnDef="qty">
+          <th mat-header-cell *matHeaderCellDef> Qté </th>
+          <td mat-cell *matCellDef="let t"> {{t.quantity}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="cost">
-        <th mat-header-cell *matHeaderCellDef class="mobile-hide"> Base Fisc. </th>
-        <td mat-cell *matCellDef="let t" class="text-muted mobile-hide">
-          {{t.fiscalCost | currency:'EUR'}}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef class="mobile-hide"> Base Fisc. </th>
+          <td mat-cell *matCellDef="let t" class="text-muted mobile-hide">
+            {{t.fiscalCost | currency:'EUR'}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="sell">
-        <th mat-header-cell *matHeaderCellDef class="mobile-hide"> Vente </th>
-        <td mat-cell *matCellDef="let t" class="mobile-hide">
-          {{t.sellPrice | currency:'EUR'}}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="sell">
+          <th mat-header-cell *matHeaderCellDef class="mobile-hide"> Vente </th>
+          <td mat-cell *matCellDef="let t" class="mobile-hide">
+            {{t.sellPrice | currency:'EUR'}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="gain">
-        <th mat-header-cell *matHeaderCellDef> Plus/Moins Value </th>
-        <td mat-cell *matCellDef="let t">
+        <ng-container matColumnDef="gain">
+          <th mat-header-cell *matHeaderCellDef> Plus/Moins Value </th>
+          <td mat-cell *matCellDef="let t">
         <span class="pnl-badge"
               [class.pnl-positive]="t.taxableGain > 0"
               [class.pnl-negative]="t.taxableGain < 0"
               [class.pnl-neutral]="t.taxableGain === 0">
           {{ t.taxableGain > 0 ? '+' : ''}}{{ t.taxableGain | currency:'EUR' }}
         </span>
-        </td>
-      </ng-container>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    @if(taxGainCalculation?.transactions?.length){
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    }
+    @else {
       <div class="empty-state">
         Aucune vente taxable réalisée cette année.
       </div>
     }
-
 
   </mat-expansion-panel>
 
