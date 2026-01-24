@@ -2,7 +2,7 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/befintax}
     username: ${SPRING_DATASOURCE_USERNAME:befintax}
-    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    password: ${SPRING_DATASOURCE_PASSWORD:SFGRe35f6hHj}
   jpa:
     hibernate:
       ddl-auto: update
