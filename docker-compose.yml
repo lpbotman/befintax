@@ -1,10 +1,9 @@
 version: '3.9'
 
 services:
+  # --- BACKEND (Java/Spring) ---
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/lpbotman/befintax/befintax-backend:latest
     container_name: befintax-backend
     restart: unless-stopped
     ports:
@@ -13,26 +12,39 @@ services:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/befintax
       SPRING_DATASOURCE_USERNAME: befintax
-      SPRING_DATASOURCE_PASSWORD: "SFGRe35f6hHj" # On met des guillemets pour le caractère spécial '!'
+      SPRING_DATASOURCE_PASSWORD: "SFGRe35f6hHj"
     networks:
       - befintax-network
-      - postgres_postgres-network # Ajout indispensable pour atteindre la DB
+      - postgres_postgres-network
 
+  # --- FRONTEND (Angular + Nginx) ---
   frontend:
-    build:
-      context: ./frontend/angular
-      dockerfile: Dockerfile
+    image: ghcr.io/lpbotman/befintax/befintax-frontend:latest
     container_name: befintax-frontend
     restart: unless-stopped
     ports:
-      - "80:80" # On repasse sur le port 80 pour que ton localhost soit propre
+      - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Injection de la config pour le dossier /browser
+      # Note : Assure-toi que nginx.conf est bien présent sur ton Mac Mini dans ce dossier
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - befintax-network
+
+  # --- AUTOMATISATION (Watchtower) ---
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # Vérifie toutes les 5 minutes, nettoie les anciennes images, et ne met à jour que ces deux-là
+    command: --interval 300 --cleanup backend frontend
+    depends_on:
+      - backend
+      - frontend
 
 networks:
   befintax-network:
     external: true
-  postgres_postgres-network: # Déclarer le réseau de ta DB
+  postgres_postgres-network:
     external: true
