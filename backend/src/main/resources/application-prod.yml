@@ -11,5 +11,5 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/befintax
-          jwk-set-uri: http://localhost:8081/realms/befintax/protocol/openid-connect/certs
+          issuer-uri: https://auth.befintax.be/realms/befintax
+          jwk-set-uri: https://auth.befintax.be/realms/befintax/protocol/openid-connect/certs
