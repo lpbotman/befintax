@@ -1,33 +1,68 @@
-.container {
-  width: 70%;
+.sidenav-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Le Header Fixe */
+.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Ombre pro */
+  background: #ffffff;
+  color: white;
+  height:80px;
+  padding-left:40px;
+}
+
+.spacer { flex: 1 1 auto; }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.toolbar-logo { height: 75px; }
+
+/* Menu Desktop */
+.desktop-menu { display: flex; gap: 10px; margin-right: 20px; }
+.active-desktop {
+  background: rgba(255,255,255,0.1);
+  border-bottom: 2px solid #60a5fa; /* Soulignement bleu clair */
+  border-radius: 4px 4px 0 0;
+}
+
+.btn-register { margin-left: 10px; font-weight: bold; }
+
+/* Sidenav Mobile */
+.sidenav { width: 280px; }
+.sidenav-header {
+  padding: 24px;
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+.sidenav-logo { height: 60px; margin-bottom: 10px; }
+.active-link { color: #3b82f6; background: #eff6ff; }
+
+/* Contenu de la page */
+.page-content {
+  padding: 24px;
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 0 auto;
+  min-height: 80vh;
 }
 
-.menu{
-  max-width: 250px;
-  flex-grow: 1;
-  justify-items: flex-end;
-}
-
-.menu mat-nav-list {
-  border: 1px solid #dbd9d9;
-  border-radius: 15px;
-  padding: 20px 10px;
-  justify-content: flex-end;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-mat-icon{
-  vertical-align: middle;
-}
-
-.menu-title {
-  text-align: end;
-}
-
-.content {
-  //flex-grow: 3;
-  width:100%;
+.main-footer {
+  background: #0f172a;
+  color: #94a3b8;
+  text-align: center;
+  padding: 2rem;
+  margin-top: auto;
 }

@@ -1,26 +1,95 @@
+<mat-sidenav-container class="sidenav-container">
 
+  <mat-sidenav #drawer mode="over" [opened]="false" class="sidenav">
+    <div class="sidenav-header">
+      <img src="assets/images/befintax_logo_nobackground.png" alt="Befintax" class="sidenav-logo">
+      <h3>Befintax</h3>
+    </div>
 
-<div class="container">
-  <!--
-  <div  class="menu">
     <mat-nav-list>
-      <a mat-list-item [activated]="false" href="/wallet" class="menu-title">
-        <span matListItemTitle>
-          Votre portefeuille
-          <mat-icon matListItemIcon>list_alt</mat-icon>
-        </span>
-      </a>
-      <a mat-list-item [activated]="false" href="/wallet" class="menu-title">
-        <span matListItemTitle>
-          Vos taxes
-          <mat-icon matListItemIcon>local_atm</mat-icon>
-        </span>
-      </a>
+      @for (item of menuItems; track item.label) {
+        <a mat-list-item [routerLink]="item.link" (click)="drawer.close()" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+
+      <mat-divider></mat-divider>
+
+      @if (auth.isLoggedIn()) {
+        <a mat-list-item (click)="auth.accountManagement()">
+          <mat-icon matListItemIcon>account_circle</mat-icon>
+          <span>Mon Profil</span>
+        </a>
+        <a mat-list-item (click)="auth.logout()">
+          <mat-icon matListItemIcon>logout</mat-icon>
+          <span>Déconnexion</span>
+        </a>
+      } @else {
+        <a mat-list-item (click)="auth.login()">
+          <mat-icon matListItemIcon>login</mat-icon>
+          <span>Se connecter</span>
+        </a>
+      }
     </mat-nav-list>
-  </div>
--->
+  </mat-sidenav>
 
-    <router-outlet />
+  <mat-sidenav-content>
 
-</div>
+    <mat-toolbar color="primary" class="main-toolbar">
 
+      @if (isHandset()) {
+        <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+
+      <span class="brand" routerLink="/">
+        <img src="assets/images/befintax_logo_nobackground.png" alt="Logo" class="toolbar-logo">
+      </span>
+
+      <span class="spacer"></span>
+
+      @if (!isHandset()) {
+        <div class="desktop-menu">
+          @for (item of menuItems; track item.label) {
+            <a mat-button [routerLink]="item.link" routerLinkActive="active-desktop">
+              {{ item.label }}
+            </a>
+          }
+        </div>
+
+        @if (auth.isLoggedIn()) {
+          <button mat-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+            {{ auth.userProfile()?.firstName }}
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="auth.accountManagement()">
+              <mat-icon>manage_accounts</mat-icon>
+              <span>Mon Compte</span>
+            </button>
+            <button mat-menu-item (click)="auth.logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Déconnexion</span>
+            </button>
+          </mat-menu>
+        } @else {
+          <button mat-button (click)="auth.login()">Connexion</button>
+          <button mat-raised-button color="accent" (click)="auth.register()" class="btn-register">
+            Créer un compte
+          </button>
+        }
+      }
+    </mat-toolbar>
+
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="main-footer">
+      <p>&copy; 2026 LPB Consult. All rights reserved.</p>
+    </footer>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
