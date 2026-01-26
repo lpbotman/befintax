@@ -35,7 +35,7 @@ public class WalletService {
             WalletEntity wallet = new WalletEntity();
             wallet.setName("wallet");
             wallet.setUser(currentUser);
-            createWallet(wallet);
+            wallet = createWallet(wallet);
             wallets.add(wallet);
         }
 
