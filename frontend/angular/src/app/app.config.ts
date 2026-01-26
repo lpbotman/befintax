@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [
         createInterceptorCondition({
-          urlPattern: /:8080\/api\//i,
+          urlPattern: /\/api\//i,
           bearerPrefix: 'Bearer'
         })
       ]
