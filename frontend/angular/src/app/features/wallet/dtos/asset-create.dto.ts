@@ -9,4 +9,5 @@ export interface AssetCreateDto {
   stockTaxRate: number;
   priceEnd2025: number;
   transactions?: AssetTransactionCreateDto[];
+  walletId?: number;
 }

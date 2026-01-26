@@ -25,9 +25,12 @@ public class AssetEntity {
     private BigDecimal stockTaxRate; // ex: 0.35
     private BigDecimal priceEnd2025;
 
-
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssetTransactionEntity> transactions = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_id", nullable = false)
+    private WalletEntity wallet;
 
     public Long getId() {
         return id;
@@ -89,6 +92,14 @@ public class AssetEntity {
 
     public void setPriceEnd2025(BigDecimal priceEnd2025) {
         this.priceEnd2025 = priceEnd2025;
+    }
+
+    public WalletEntity getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(WalletEntity wallet) {
+        this.wallet = wallet;
     }
 }
 

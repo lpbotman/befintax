@@ -7,7 +7,6 @@ import {MatButton} from '@angular/material/button';
 import {
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
 } from '@angular/material/dialog';
 import {DEFAULT_CREATE_ASSET} from '../../models/AssetForm.model';
 import {DEFAULT_CREATE_TRANSACTION} from '../../models/AssetTransactionForm.model';
@@ -48,6 +47,8 @@ export class AddAssetDialogComponent implements OnInit {
   }
 
   createAsset() {
+    const wallet = this.walletService.wallet();
+
     const assetFormValue = this.assetModel();
     const transactionFormValue = this.transactionModel();
 
@@ -65,6 +66,7 @@ export class AddAssetDialogComponent implements OnInit {
     }
 
     const assetCreateDto: AssetCreateDto = {
+      walletId: wallet?.id,
       name: assetFormValue.name,
       type: assetFormValue.type,
       taxCollectedByBroker: assetFormValue.taxCollectedByBroker,

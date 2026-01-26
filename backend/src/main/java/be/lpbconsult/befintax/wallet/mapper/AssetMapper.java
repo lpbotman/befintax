@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = { AssetTransactionMapper.class })
 public interface AssetMapper {
 
+    @Mapping(target = "wallet", ignore = true)
     AssetEntity toEntity(AssetCreateDTO dto);
 
     @Mapping(target = "transactions", source = "transactions")

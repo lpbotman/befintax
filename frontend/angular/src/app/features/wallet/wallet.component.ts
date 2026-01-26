@@ -17,7 +17,9 @@ export class WalletComponent implements OnInit {
 
   constructor(private walletService: WalletService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.walletService.loadAWallet();
+  }
 
   get totalWalletValue() {
     const assets: Asset[] = this.walletService.assets();
