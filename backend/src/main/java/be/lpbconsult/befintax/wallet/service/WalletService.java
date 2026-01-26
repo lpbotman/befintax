@@ -29,7 +29,17 @@ public class WalletService {
 
     public List<WalletDTO> findAll() {
         UserEntity currentUser = securityService.getCurrentAuthenticatedUser();
-        return walletRepository.findByUser(currentUser)
+        List<WalletEntity> wallets = walletRepository.findByUser(currentUser);
+
+        if (wallets.isEmpty()) {
+            WalletEntity wallet = new WalletEntity();
+            wallet.setName("wallet");
+            wallet.setUser(currentUser);
+            createWallet(wallet);
+            wallets.add(wallet);
+        }
+
+        return wallets
                 .stream()
                 .map(walletMapper::toDto)
                 .toList();
