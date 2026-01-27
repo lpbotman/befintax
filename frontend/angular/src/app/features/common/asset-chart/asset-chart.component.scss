@@ -1,0 +1,33 @@
+.chart-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); // Ombre douce
+  border: 1px solid #f3f4f6;
+
+  .chart-header {
+    margin-bottom: 1rem;
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  .canvas-wrapper {
+    position: relative;
+    height: 300px; // Hauteur fixe importante pour Chart.js
+    width: 100%;
+  }
+}

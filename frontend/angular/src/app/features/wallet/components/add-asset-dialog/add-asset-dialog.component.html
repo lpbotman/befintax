@@ -15,9 +15,15 @@
             }
           </mat-chip-listbox>
 
+          <p class="question">Indiquez le symbole l'actif (ex: AAPL, BTC/EUR,...) :</p>
+          <mat-form-field appearance="outline" class="asset-name-field">
+            <mat-label>Symbole de l'actif</mat-label>
+            <input matInput  type="text" [formField]="assetForm.symbol"/>
+          </mat-form-field>
+
           <p class="question">Indiquez le nom de l'actif :</p>
           <mat-form-field appearance="outline" class="asset-name-field">
-            <mat-label>Nom de l'asset</mat-label>
+            <mat-label>Nom de l'actif</mat-label>
             <input matInput  type="text" [formField]="assetForm.name"/>
           </mat-form-field>
 

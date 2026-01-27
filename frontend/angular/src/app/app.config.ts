@@ -11,6 +11,7 @@ import {
   includeBearerTokenInterceptor, provideKeycloak, UserActivityService, withAutoRefreshToken
 } from 'keycloak-angular';
 import {environment} from '../environments/environment';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 export const YEARMONTH_FORMATS = {
   parse: {dateInput: 'MM/yyyy'},
@@ -19,6 +20,7 @@ export const YEARMONTH_FORMATS = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+
     provideHttpClient(
       withInterceptors([includeBearerTokenInterceptor])
     ),
@@ -32,6 +34,7 @@ export const appConfig: ApplicationConfig = {
       ]
     },
     provideRouter(routes),
+    provideCharts(withDefaultRegisterables()),
     provideLuxonDateAdapter(YEARMONTH_FORMATS),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

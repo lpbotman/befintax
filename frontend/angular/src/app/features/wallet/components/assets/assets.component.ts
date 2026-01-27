@@ -10,7 +10,7 @@ import {
   MatRow, MatRowDef, MatTable
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
-import {DatePipe} from '@angular/common';
+import {CurrencyPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {MatList, MatListItem} from '@angular/material/list';
 import {MatSort, MatSortHeader, Sort} from '@angular/material/sort';
 import {WalletService} from '../../services/wallet.service';
@@ -18,6 +18,7 @@ import {Asset} from '../../../../core/models/asset.model';
 import {AddAssetDialogComponent} from '../add-asset-dialog/add-asset-dialog.component';
 import {TransactionType} from '../../../../core/models/asset.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
+import {AssetChartComponent} from '../../../common/asset-chart/asset-chart.component';
 
 @Component({
   selector: 'app-assets',
@@ -32,14 +33,15 @@ import {TransactionDialogComponent} from '../transaction-dialog/transaction-dial
     MatHeaderRow,
     MatHeaderRowDef,
     MatIcon,
-    MatList,
-    MatListItem,
     MatRow,
     MatRowDef,
     MatSort,
     MatSortHeader,
     MatTable,
-    MatHeaderCellDef
+    MatHeaderCellDef,
+    AssetChartComponent,
+    DecimalPipe,
+    CurrencyPipe
   ],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss',
@@ -143,7 +145,15 @@ export class AssetsComponent {
     );
   }
 
-
+  getAssetColor(type: string): string {
+    switch (type) {
+      case 'STOCK': return '#449f64'; // Indigo (Bleu pro)
+      case 'CRYPTO': return '#F59E0B'; // Amber (Orange Bitcoin)
+      case 'ETF': return '#06B6D4';    // Cyan
+      case 'OBLIGATION': return '#8B5CF6'; // Violet
+      default: return '#64748B';
+    }
+  }
 
 }
 

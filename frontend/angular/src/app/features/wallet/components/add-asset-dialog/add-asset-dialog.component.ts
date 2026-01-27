@@ -32,6 +32,7 @@ export class AddAssetDialogComponent implements OnInit {
 
   private assetModel = signal({...DEFAULT_CREATE_ASSET});
   assetForm= form(this.assetModel, (asset) => {
+    required(asset.symbol);
     required(asset.name);
     required(asset.type);
     required(asset.taxRatePercent);
