@@ -16,6 +16,7 @@
   margin-top: 1rem;
   position: relative;
   overflow: hidden;
+  gap: 20px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -93,6 +94,8 @@
   img {
     max-width: 100%;
     height: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   }
 
   @media (max-width: 768px) { display: none; }
