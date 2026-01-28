@@ -53,5 +53,22 @@ mat-chip-option:hover {
 .actions-btn .primary {
   background-color: #66b4e2;
   color: white;
+}
+.asset-search-field{
+  width: 100%;
+}
 
+.symbol {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.name {
+  color: #666;
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  /* Pour s'assurer que le texte long ne casse pas la mise en page */
+  display: flex;
+  align-items: center;
 }

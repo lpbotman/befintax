@@ -51,6 +51,53 @@
 .sidenav-logo { height: 60px; margin-bottom: 10px; }
 .active-link { color: #3b82f6; background: #eff6ff; }
 
+.auth-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .lang-selector {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #64748b;
+    border-radius: 20px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+    }
+  }
+
+  .btn-auth {
+    background-color: #5890db; // Noir/Bleu nuit Apple
+    color: white;
+    border-radius: 24px; // Très arrondi
+    padding: 8px 24px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: #1e293b;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Style du menu déroulant
+::ng-deep .modern-menu {
+  border-radius: 12px !important;
+  margin-top: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
 /* Contenu de la page */
 .page-content {
   padding: 24px;

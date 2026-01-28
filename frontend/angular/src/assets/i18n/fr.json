@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "profile": "Mon Profil",
+    "account": "Mon Compte",
+    "logout": "Déconnexion",
+    "login": "Se connecter",
+    "connexion": "Connexion"
+  },
+  "footer": {
+    "rights": "Tous droits réservés."
+  },
+  "menu": {
+    "home": "Accueil",
+    "wallet": "Portefeuille",
+    "fire": "Outils FIRE"
+  },
+  "home": {
+    "hero": {
+      "badge": "Nouveau : Réforme Fiscale 2026",
+      "title": "Maîtrisez votre fiscalité boursière en Belgique",
+      "subtitle": "Calculez automatiquement votre <strong>TOB</strong> et anticipez la nouvelle <strong>taxe sur la plus-value</strong>. Planifiez votre liberté financière (FIRE) avec précision.",
+      "start_btn": "Commencer gratuitement",
+      "learn_more": "En savoir plus",
+      "img_alt": "Analyse financière"
+    },
+    "features": {
+      "tax_2026": {
+        "title": "Taxe Plus-Value 2026",
+        "desc": "Ne soyez pas pris au dépourvu par la réforme. Notre algorithme intègre les dernières directives de la loi 2026 pour estimer vos impôts sur les gains en capital.",
+        "btn": "Simuler ma taxe"
+      },
+      "tob": {
+        "title": "Calculateur TOB",
+        "desc": "Importez vos transactions (Degiro, Interactive Brokers, etc.) et générez votre déclaration TOB en quelques secondes sans erreur de calcul.",
+        "btn": "Calculer ma TOB"
+      },
+      "fire": {
+        "title": "Objectif FIRE",
+        "desc": "Financial Independence, Retire Early. Projetez votre patrimoine net, vos intérêts composés et déterminez votre date de liberté financière.",
+        "btn": "Mon plan FIRE"
+      }
+    },
+    "approach": {
+      "title": "L'approche Befintax",
+      "secure": {
+        "title": "Accès Sécurisé",
+        "desc": "Une gestion d'identité robuste pour protéger l'accès à vos simulations financières."
+      },
+      "belgium": {
+        "title": "Spécificité Belge",
+        "desc": "Un outil pensé exclusivement pour le cadre fiscal complexe de la Belgique et sa réforme 2026."
+      },
+      "clarity": {
+        "title": "Clarté Fiscale",
+        "desc": "Visualisez l'impact de vos investissements sur votre patrimoine net en un coup d'œil."
+      }
+    },
+    "cta": {
+      "title": "Prêt à optimiser vos investissements ?",
+      "register": "Créer mon compte gratuit"
+    }
+  },
+  "exchanges": {
+    "ADX": "Abou Dabi",
+    "ASE": "Athènes",
+    "ASX": "Sydney",
+    "BCBA": "Buenos Aires",
+    "BIST": "Istanbul",
+    "BME": "Espagne",
+    "BMV": "Mexico",
+    "Bovespa": "São Paulo",
+    "BSE": "Bombay",
+    "BVB": "Bucarest",
+    "BVC": "Colombie",
+    "BVCC": "Caracas",
+    "BVL": "Lima",
+    "BVS": "El Salvador",
+    "CBOE": "Chicago",
+    "CSE": "Canada",
+    "CXA": "Sydney (Chi-X)",
+    "DFM": "Dubaï",
+    "EGX": "Le Caire",
+    "Euronext": "Euronext",
+    "FSX": "Francfort",
+    "GPW": "Varsovie",
+    "HKEX": "Hong Kong",
+    "ICEX": "Islande",
+    "IDX": "Jakarta",
+    "ISE": "Dublin",
+    "JPX": "Tokyo",
+    "JSE": "Johannesburg",
+    "KRX": "Séoul",
+    "LSE": "Londres",
+    "MOEX": "Moscou",
+    "MTA": "Milan",
+    "Munich": "Munich",
+    "MYX": "Kuala Lumpur",
+    "NASDAQ": "NASDAQ",
+    "NEO": "Canada (NEO)",
+    "NSE": "Mumbai",
+    "NYSE": "New York",
+    "NZX": "Wellington",
+    "OMX": "Nordique",
+    "OMXC": "Copenhague",
+    "OMXH": "Helsinki",
+    "OMXR": "Riga",
+    "OMXT": "Tallinn",
+    "OMXV": "Vilnius",
+    "OSE": "Oslo",
+    "OTC": "OTC",
+    "PSE": "Manille",
+    "PSX": "Karachi",
+    "QE": "Doha",
+    "SET": "Bangkok",
+    "SGX": "Singapour",
+    "SIX": "Zurich",
+    "SSE": "Shanghai",
+    "SZSE": "Shenzhen",
+    "Tadawul": "Riyad",
+    "TASE": "Tel-Aviv",
+    "TSX": "Toronto",
+    "TSXV": "Toronto (Venture)",
+    "TWSE": "Taipei",
+    "VSE": "Vienne",
+    "XBER": "Berlin",
+    "XDUS": "Düsseldorf",
+    "XETR": "Francfort (Xetra)",
+    "XHAM": "Hambourg",
+    "XHAN": "Hanovre",
+    "XKUW": "Koweït",
+    "XSAP": "Sapporo",
+    "XSTU": "Stuttgart"
+  }
+}

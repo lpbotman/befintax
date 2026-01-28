@@ -11,6 +11,7 @@ import {
 } from '@angular/material/card';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../core/services/auth.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,8 @@ import {AuthService} from '../../core/services/auth.service';
     MatCardTitle,
     MatCardHeader,
     MatCard,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

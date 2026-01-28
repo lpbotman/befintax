@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "profile": "Mijn Profiel",
+    "account": "Mijn Account",
+    "logout": "Afmelden",
+    "login": "Inloggen",
+    "connexion": "Inloggen"
+  },
+  "footer": {
+    "rights": "Alle rechten voorbehouden."
+  },
+  "menu": {
+    "home": "Home",
+    "wallet": "Portefeuille",
+    "fire": "FIRE-tools"
+  },
+  "home": {
+    "hero": {
+      "badge": "Nieuw: Fiscale hervorming 2026",
+      "title": "Beheers uw beursfiscaliteit in België",
+      "subtitle": "Bereken automatisch uw <strong>TOB</strong> en anticipeer op de nieuwe <strong>meerwaardebelasting</strong>. Plan uw financiële vrijheid (FIRE) met precisie.",
+      "start_btn": "Gratis starten",
+      "learn_more": "Meer weten",
+      "img_alt": "Financiële analyse"
+    },
+    "features": {
+      "tax_2026": {
+        "title": "Meerwaardebelasting 2026",
+        "desc": "Laat u niet verrassen door de hervorming. Ons algoritme integreert de nieuwste richtlijnen van de wet van 2026 om uw vermogenswinstbelasting te ramen.",
+        "btn": "Mijn belasting simuleren"
+      },
+      "tob": {
+        "title": "TOB-calculator",
+        "desc": "Importeer uw transacties (Degiro, Interactive Brokers, enz.) en genereer uw TOB-aangifte in enkele seconden zonder rekenfouten.",
+        "btn": "Mijn TOB berekenen"
+      },
+      "fire": {
+        "title": "FIRE-doelstelling",
+        "desc": "Financial Independence, Retire Early. Projecteer uw nettovermogen, samengestelde interest en bepaal uw datum voor financiële vrijheid.",
+        "btn": "Mijn FIRE-plan"
+      }
+    },
+    "approach": {
+      "title": "De Befintax-aanpak",
+      "secure": {
+        "title": "Beveiligde toegang",
+        "desc": "Robuust identiteitsbeheer om de toegang tot uw financiële simulaties te beschermen."
+      },
+      "belgium": {
+        "title": "Belgische specificiteit",
+        "desc": "Een tool die exclusief is ontworpen voor het complexe fiscale kader van België en de hervorming van 2026."
+      },
+      "clarity": {
+        "title": "Fiscale duidelijkheid",
+        "desc": "Visualiseer in één oogopslag de impact van uw beleggingen op uw nettovermogen."
+      }
+    },
+    "cta": {
+      "title": "Klaar om uw beleggingen te optimaliseren?",
+      "register": "Gratis account aanmaken"
+    }
+  },
+  "exchanges": {
+    "ADX": "Abu Dhabi",
+    "ASE": "Athene",
+    "ASX": "Sydney",
+    "BCBA": "Buenos Aires",
+    "BIST": "Istanbul",
+    "BME": "Spanje",
+    "BMV": "Mexico",
+    "Bovespa": "São Paulo",
+    "BSE": "Bombay",
+    "BVB": "Boekarest",
+    "BVC": "Colombia",
+    "BVCC": "Caracas",
+    "BVL": "Lima",
+    "BVS": "El Salvador",
+    "CBOE": "Chicago",
+    "CSE": "Canada",
+    "CXA": "Sydney (Chi-X)",
+    "DFM": "Dubai",
+    "EGX": "Caïro",
+    "Euronext": "Euronext",
+    "FSX": "Frankfurt",
+    "GPW": "Warsaw",
+    "HKEX": "Hong Kong",
+    "ICEX": "IJsland",
+    "IDX": "Jakarta",
+    "ISE": "Dublin",
+    "JPX": "Tokyo",
+    "JSE": "Johannesburg",
+    "KRX": "Seoel",
+    "LSE": "Londen",
+    "MOEX": "Moskou",
+    "MTA": "Milaan",
+    "Munich": "München",
+    "MYX": "Kuala Lumpur",
+    "NASDAQ": "NASDAQ",
+    "NEO": "Canada (NEO)",
+    "NSE": "Mumbai",
+    "NYSE": "New York",
+    "NZX": "Wellington",
+    "OMX": "Nordics",
+    "OMXC": "Kopenhagen",
+    "OMXH": "Helsinki",
+    "OMXR": "Riga",
+    "OMXT": "Tallinn",
+    "OMXV": "Vilnius",
+    "OSE": "Oslo",
+    "OTC": "OTC",
+    "PSE": "Manilla",
+    "PSX": "Karachi",
+    "QE": "Doha",
+    "SET": "Bangkok",
+    "SGX": "Singapore",
+    "SIX": "Zürich",
+    "SSE": "Shanghai",
+    "SZSE": "Shenzhen",
+    "Tadawul": "Riyad",
+    "TASE": "Tel Aviv",
+    "TSX": "Toronto",
+    "TSXV": "Toronto (Venture)",
+    "TWSE": "Taipei",
+    "VSE": "Wenen",
+    "XBER": "Berlijn",
+    "XDUS": "Düsseldorf",
+    "XETR": "Frankfurt (Xetra)",
+    "XHAM": "Hamburg",
+    "XHAN": "Hannover",
+    "XKUW": "Koeweit",
+    "XSAP": "Sapporo",
+    "XSTU": "Stuttgart"
+  }
+}

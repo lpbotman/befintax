@@ -1,8 +1,8 @@
 import { ApplicationConfig } from '@angular/core';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {HttpClient, provideHttpClient, withInterceptors} from '@angular/common/http';
 
-import {provideTranslateService} from '@ngx-translate/core';
-import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
+import {provideTranslateLoader, provideTranslateService, TranslateLoader} from '@ngx-translate/core';
+import {provideTranslateHttpLoader, TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
@@ -18,12 +18,22 @@ export const YEARMONTH_FORMATS = {
   display: {dateInput: 'MM/yyyy', monthYearLabel: 'MMM yyyy', dateA11yLabel: 'DD', monthYearA11yLabel: 'MMMM yyyy'},
 };
 
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
 
     provideHttpClient(
       withInterceptors([includeBearerTokenInterceptor])
     ),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json'
+      }),
+      fallbackLang: 'fr',
+      lang: 'fr'
+    }),
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [
@@ -36,14 +46,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideCharts(withDefaultRegisterables()),
     provideLuxonDateAdapter(YEARMONTH_FORMATS),
-    provideTranslateService({
-      loader: provideTranslateHttpLoader({
-        prefix: '/assets/i18n/',
-        suffix: '.json'
-      }),
-      fallbackLang: 'fr',
-      lang: 'fr'
-    }),
     AutoRefreshTokenService,
     UserActivityService,
     provideKeycloak({
@@ -59,7 +61,7 @@ export const appConfig: ApplicationConfig = {
       },
       features: [
         withAutoRefreshToken(),
-      ]
+      ],
     }),
   ]
 };

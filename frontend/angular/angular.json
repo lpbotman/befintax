@@ -29,7 +29,8 @@
             "tsConfig": "tsconfig.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets/images",
+              { "glob": "**/*", "input": "src/assets", "output": "/assets" },
+              { "glob": "**/*", "input": "public", "output": "/" },
               "src/assets/silent-check-sso.html",
               {
                 "glob": "**/*",

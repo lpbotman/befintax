@@ -2,23 +2,21 @@
 
   <section class="hero-section">
     <div class="hero-content">
-      <div class="badge-new">Nouveau : Réforme Fiscale 2026</div>
-      <h1>Maîtrisez votre fiscalité boursière en Belgique</h1>
-      <p class="hero-subtitle">
-        Calculez automatiquement votre <strong>TOB</strong> et anticipez la nouvelle <strong>taxe sur la plus-value</strong>.
-        Planifiez votre liberté financière (FIRE) avec précision.
-      </p>
+      <div class="badge-new">{{ 'home.hero.badge' | translate }}</div>
+      <h1>{{ 'home.hero.title' | translate }}</h1>
+      <p class="hero-subtitle" [innerHTML]="'home.hero.subtitle' | translate"></p>
+
       <div class="hero-actions">
         <button mat-flat-button color="primary" routerLink="/wallet" class="btn-lg">
-          <mat-icon>rocket_launch</mat-icon> Commencer gratuitement
+          <mat-icon>rocket_launch</mat-icon> {{ 'home.hero.start_btn' | translate }}
         </button>
         <button mat-stroked-button class="btn-lg-outline" (click)="scrollToFeatures()">
-          En savoir plus
+          {{ 'home.hero.learn_more' | translate }}
         </button>
       </div>
     </div>
     <div class="hero-image">
-      <img src="assets/images/homepage_main.jpg" alt="Analyse financière" onerror="this.style.display='none'">
+      <img src="assets/images/homepage_main.jpg" [alt]="'home.hero.img_alt' | translate" onerror="this.style.display='none'">
     </div>
   </section>
 
@@ -26,86 +24,74 @@
 
     <mat-card class="feature-card highlight-card">
       <mat-card-header>
-        <div mat-card-avatar class="icon-bg warning">
-          <mat-icon>gavel</mat-icon>
-        </div>
-        <mat-card-title>Taxe Plus-Value 2026</mat-card-title>
+        <div mat-card-avatar class="icon-bg warning"><mat-icon>gavel</mat-icon></div>
+        <mat-card-title>{{ 'home.features.tax_2026.title' | translate }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          Ne soyez pas pris au dépourvu par la réforme. Notre algorithme intègre les dernières directives de la loi 2026 pour estimer vos impôts sur les gains en capital.
-        </p>
+        <p>{{ 'home.features.tax_2026.desc' | translate }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button color="warn">Simuler ma taxe</button>
+        <button mat-button color="warn">{{ 'home.features.tax_2026.btn' | translate }}</button>
       </mat-card-actions>
     </mat-card>
 
     <mat-card class="feature-card">
       <mat-card-header>
-        <div mat-card-avatar class="icon-bg primary">
-          <mat-icon>receipt_long</mat-icon>
-        </div>
-        <mat-card-title>Calculateur TOB</mat-card-title>
+        <div mat-card-avatar class="icon-bg primary"><mat-icon>receipt_long</mat-icon></div>
+        <mat-card-title>{{ 'home.features.tob.title' | translate }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          Importez vos transactions (Degiro, Interactive Brokers, etc.) et générez votre déclaration TOB en quelques secondes sans erreur de calcul.
-        </p>
+        <p>{{ 'home.features.tob.desc' | translate }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button color="primary" routerLink="/wallet">Calculer ma TOB</button>
+        <button mat-button color="primary" routerLink="/wallet">{{ 'home.features.tob.btn' | translate }}</button>
       </mat-card-actions>
     </mat-card>
 
     <mat-card class="feature-card">
       <mat-card-header>
-        <div mat-card-avatar class="icon-bg success">
-          <mat-icon>beach_access</mat-icon>
-        </div>
-        <mat-card-title>Objectif FIRE</mat-card-title>
+        <div mat-card-avatar class="icon-bg success"><mat-icon>beach_access</mat-icon></div>
+        <mat-card-title>{{ 'home.features.fire.title' | translate }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          Financial Independence, Retire Early. Projetez votre patrimoine net, vos intérêts composés et déterminez votre date de liberté financière.
-        </p>
+        <p>{{ 'home.features.fire.desc' | translate }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button class="success-text" routerLink="/fire-tools">Mon plan FIRE</button>
+        <button mat-button class="success-text" routerLink="/fire-tools">{{ 'home.features.fire.btn' | translate }}</button>
       </mat-card-actions>
     </mat-card>
 
   </section>
 
   <section class="info-section">
-    <h2>L'approche Befintax</h2>
+    <h2>{{ 'home.approach.title' | translate }}</h2>
     <div class="info-grid">
 
       <div class="info-item">
         <mat-icon>fingerprint</mat-icon>
-        <h3>Accès Sécurisé</h3>
-        <p>Une gestion d'identité robuste pour protéger l'accès à vos simulations financières.</p>
+        <h3>{{ 'home.approach.secure.title' | translate }}</h3>
+        <p>{{ 'home.approach.secure.desc' | translate }}</p>
       </div>
 
       <div class="info-item">
         <mat-icon>account_balance</mat-icon>
-        <h3>Spécificité Belge</h3>
-        <p>Un outil pensé exclusivement pour le cadre fiscal complexe de la Belgique et sa réforme 2026.</p>
+        <h3>{{ 'home.approach.belgium.title' | translate }}</h3>
+        <p>{{ 'home.approach.belgium.desc' | translate }}</p>
       </div>
 
       <div class="info-item">
         <mat-icon>visibility</mat-icon>
-        <h3>Clarté Fiscale</h3>
-        <p>Visualisez l'impact de vos investissements sur votre patrimoine net en un coup d'œil.</p>
+        <h3>{{ 'home.approach.clarity.title' | translate }}</h3>
+        <p>{{ 'home.approach.clarity.desc' | translate }}</p>
       </div>
 
     </div>
   </section>
 
   <section class="cta-section">
-    <h2>Prêt à optimiser vos investissements ?</h2>
+    <h2>{{ 'home.cta.title' | translate }}</h2>
     <button mat-raised-button color="accent" class="btn-xl" (click)="auth.register()">
-      Créer mon compte gratuit
+      {{ 'home.cta.register' | translate }}
     </button>
   </section>
 

@@ -7,10 +7,10 @@
     </div>
 
     <mat-nav-list>
-      @for (item of menuItems; track item.label) {
+      @for (item of menuItems; track item.labelKey) {
         <a mat-list-item [routerLink]="item.link" (click)="drawer.close()" routerLinkActive="active-link">
           <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span matListItemTitle>{{ item.label }}</span>
+          <span matListItemTitle>{{ item.labelKey | translate }}</span>
         </a>
       }
 
@@ -19,25 +19,23 @@
       @if (auth.isLoggedIn()) {
         <a mat-list-item (click)="auth.accountManagement()">
           <mat-icon matListItemIcon>account_circle</mat-icon>
-          <span>Mon Profil</span>
+          <span>{{ 'nav.profile' | translate }}</span>
         </a>
         <a mat-list-item (click)="auth.logout()">
           <mat-icon matListItemIcon>logout</mat-icon>
-          <span>Déconnexion</span>
+          <span>{{ 'nav.logout' | translate }}</span>
         </a>
       } @else {
         <a mat-list-item (click)="auth.login()">
           <mat-icon matListItemIcon>login</mat-icon>
-          <span>Se connecter</span>
+          <span>{{ 'nav.login' | translate }}</span>
         </a>
       }
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-
     <mat-toolbar color="primary" class="main-toolbar">
-
       @if (isHandset()) {
         <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle menu">
           <mat-icon>menu</mat-icon>
@@ -52,9 +50,9 @@
 
       @if (!isHandset()) {
         <div class="desktop-menu">
-          @for (item of menuItems; track item.label) {
+          @for (item of menuItems; track item.labelKey) {
             <a mat-button [routerLink]="item.link" routerLinkActive="active-desktop">
-              {{ item.label }}
+              {{ item.labelKey | translate }}
             </a>
           }
         </div>
@@ -67,18 +65,30 @@
           <mat-menu #userMenu="matMenu">
             <button mat-menu-item (click)="auth.accountManagement()">
               <mat-icon>manage_accounts</mat-icon>
-              <span>Mon Compte</span>
+              <span>{{ 'nav.account' | translate }}</span>
             </button>
             <button mat-menu-item (click)="auth.logout()">
               <mat-icon>logout</mat-icon>
-              <span>Déconnexion</span>
+              <span>{{ 'nav.logout' | translate }}</span>
             </button>
           </mat-menu>
         } @else {
-          <button mat-button (click)="auth.login()">Connexion</button>
-          <button mat-raised-button color="accent" (click)="auth.register()" class="btn-register">
-            Créer un compte
-          </button>
+          <div class="auth-header-actions">
+            <button mat-button [matMenuTriggerFor]="langMenu" class="lang-selector">
+              <mat-icon>language</mat-icon>
+              <span>{{ currentLang | uppercase }}</span>
+            </button>
+
+            <mat-menu #langMenu="matMenu" class="modern-menu">
+              <button mat-menu-item (click)="switchLang('fr')">Français</button>
+              <button mat-menu-item (click)="switchLang('nl')">Nederlands</button>
+            </mat-menu>
+
+            <button mat-flat-button class="btn-auth" (click)="auth.login()">
+              <mat-icon>account_circle</mat-icon>
+              {{ 'nav.connexion' | translate }}
+            </button>
+          </div>
         }
       }
     </mat-toolbar>
@@ -88,7 +98,7 @@
     </main>
 
     <footer class="main-footer">
-      <p>&copy; 2026 LPB Consult. All rights reserved.</p>
+      <p>&copy; 2026 LPB Consult. {{ 'footer.rights' | translate }}</p>
     </footer>
 
   </mat-sidenav-content>

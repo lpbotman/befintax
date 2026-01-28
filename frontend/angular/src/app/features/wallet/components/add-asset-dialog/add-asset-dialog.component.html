@@ -1,5 +1,4 @@
 <div class="container">
-
   <mat-dialog-content>
     <mat-stepper linear #stepper>
       <mat-step [editable]="false">
@@ -15,7 +14,46 @@
             }
           </mat-chip-listbox>
 
-          <p class="question">Indiquez le symbole l'actif (ex: AAPL, BTC/EUR,...) :</p>
+          <p class="question">Recherchez votre instrument (Nom ou Symbole) :</p>
+          <mat-form-field appearance="outline" class="asset-search-field">
+            <mat-label>Rechercher un instrument (ex: Apple, AAPL...)</mat-label>
+
+            <input matInput
+                   type="text"
+                   [formControl]="searchControl"
+                   [matAutocomplete]="auto" />
+
+            <mat-icon matSuffix>search</mat-icon>
+
+            <mat-autocomplete #auto="matAutocomplete"
+                              (optionSelected)="onAssetSelected($event)"
+                              [displayWith]="displayFn">
+
+              @for (instrument of (filteredInstruments$ | async); track instrument.id) {
+                <mat-option [value]="instrument">
+                  <span class="symbol">{{ instrument.symbol }}</span>
+                  <span class="name"> - {{ instrument.name }}</span>
+                  <span class="exchange"> - {{ 'exchanges.' + instrument.exchange | translate }}</span>
+                </mat-option>
+              } @empty {
+                @if (searchTextLength > 1) {
+                  <mat-option disabled>Aucun résultat trouvé</mat-option>
+                }
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <p class="question">Symbole sélectionné :</p>
+          <mat-form-field appearance="outline" class="asset-name-field">
+            <input matInput [formField]="assetForm.symbol" />
+          </mat-form-field>
+
+          <p class="question">Nom de l'actif :</p>
+          <mat-form-field appearance="outline" class="asset-name-field">
+            <input matInput [formField]="assetForm.name" />
+          </mat-form-field>
+
+          <!--p class="question">Indiquez le symbole l'actif (ex: AAPL, BTC/EUR,...) :</p>
           <mat-form-field appearance="outline" class="asset-name-field">
             <mat-label>Symbole de l'actif</mat-label>
             <input matInput  type="text" [formField]="assetForm.symbol"/>
@@ -25,7 +63,7 @@
           <mat-form-field appearance="outline" class="asset-name-field">
             <mat-label>Nom de l'actif</mat-label>
             <input matInput  type="text" [formField]="assetForm.name"/>
-          </mat-form-field>
+          </mat-form-field-->
 
           <div class="actions-btn">
             <button matButton>Annuler</button>
