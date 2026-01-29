@@ -56,8 +56,8 @@ public class InstrumentService {
         }
     }
 
-    public List<InstrumentEntity> searchInstruments(String query, Pageable offset) {
-        return repository.searchInstruments(query, offset);
+    public List<InstrumentEntity> searchInstruments(String query, InstrumentType category, Pageable offset) {
+        return repository.searchInstruments(query, category, offset);
     }
 }
 

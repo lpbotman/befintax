@@ -13,9 +13,10 @@ export class InstrumentApiService {
 
   constructor(private http: HttpClient) {}
 
-  search(query: string, page: number = 0, size: number = 10): Observable<Instrument[]> {
+  search(query: string, assetType: string, page: number = 0, size: number = 10): Observable<Instrument[]> {
     const params = new HttpParams()
       .set('query', query)
+      .set('type', assetType.toString())
       .set('page', page.toString())
       .set('size', size.toString())
       .set('sort', 'name,asc');

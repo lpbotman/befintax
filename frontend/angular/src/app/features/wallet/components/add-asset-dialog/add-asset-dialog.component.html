@@ -1,12 +1,12 @@
 <div class="container">
   <mat-dialog-content>
     <mat-stepper linear #stepper>
-      <mat-step [editable]="false">
+      <mat-step>
         <ng-template matStepLabel>Sélectionnez un actif</ng-template>
         <form class="asset-form" (ngSubmit)="onSave()">
 
           <p class="question">Sélectionnez votre type d'actif :</p>
-          <mat-chip-listbox [formField]="assetForm.type" class="asset-type-group" aria-label="Asset type">
+          <mat-chip-listbox [formField]="assetForm.type" class="asset-type-group" aria-label="Asset type" (change)="onAssetTypeChange()">
             @for (assetType of Object.values(AssetType); track assetType) {
               <mat-chip-option [value]="assetType">
                 {{ assetType }}
@@ -15,7 +15,8 @@
           </mat-chip-listbox>
 
           <p class="question">Recherchez votre instrument (Nom ou Symbole) :</p>
-          <mat-form-field appearance="outline" class="asset-search-field">
+          <mat-form-field appearance="outline" class="asset-search-field"
+                          [color]="searchControl.invalid && searchControl.touched ? 'warn' : 'primary'">
             <mat-label>Rechercher un instrument (ex: Apple, AAPL...)</mat-label>
 
             <input matInput
@@ -23,8 +24,11 @@
                    [formControl]="searchControl"
                    [matAutocomplete]="auto" />
 
-            <mat-icon matSuffix>search</mat-icon>
+            <mat-icon matSuffix [color]="searchControl.invalid && searchControl.touched ? 'warn' : ''">search</mat-icon>
 
+            @if (searchControl.invalid && searchControl.touched) {
+              <mat-error>Vous devez sélectionner un actif dans la liste</mat-error>
+            }
             <mat-autocomplete #auto="matAutocomplete"
                               (optionSelected)="onAssetSelected($event)"
                               [displayWith]="displayFn">
@@ -43,36 +47,32 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <p class="question">Symbole sélectionné :</p>
-          <mat-form-field appearance="outline" class="asset-name-field">
-            <input matInput [formField]="assetForm.symbol" />
-          </mat-form-field>
+          @if (assetForm.symbol().value()) {
+            <div class="selected-asset-card">
+              <div class="asset-info">
+                <span [class]="'asset-badge' + ' ' + 'asset-badge-' + assetModel().type.toLowerCase()">{{ assetModel().type }}</span>
+                <div class="asset-details">
+                  <span class="display-symbol">{{ assetForm.symbol().value() }}</span>
+                  <span class="display-name">{{ assetForm.name().value() }}</span>
+                </div>
+              </div>
 
-          <p class="question">Nom de l'actif :</p>
-          <mat-form-field appearance="outline" class="asset-name-field">
-            <input matInput [formField]="assetForm.name" />
-          </mat-form-field>
-
-          <!--p class="question">Indiquez le symbole l'actif (ex: AAPL, BTC/EUR,...) :</p>
-          <mat-form-field appearance="outline" class="asset-name-field">
-            <mat-label>Symbole de l'actif</mat-label>
-            <input matInput  type="text" [formField]="assetForm.symbol"/>
-          </mat-form-field>
-
-          <p class="question">Indiquez le nom de l'actif :</p>
-          <mat-form-field appearance="outline" class="asset-name-field">
-            <mat-label>Nom de l'actif</mat-label>
-            <input matInput  type="text" [formField]="assetForm.name"/>
-          </mat-form-field-->
+              <button mat-icon-button  type="button" class="reset-btn" (click)="resetAsset()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <p class="placeholder-text">Recherchez un actif pour voir les détails...</p>
+          }
 
           <div class="actions-btn">
-            <button matButton>Annuler</button>
+            <button matButton (click)="onClose()">Annuler</button>
             <button matButton type="submit" class="primary">Suivant</button>
           </div>
         </form>
       </mat-step>
 
-      <mat-step [editable]="false">
+      <mat-step>
         <ng-template matStepLabel>Taxation</ng-template>
         <form class="asset-form" (ngSubmit)="onSave()">
           <p class="question">Indiquez le taux de taxation pour la taxe boursière :</p>
@@ -87,14 +87,14 @@
           </mat-radio-group>
 
           <div class="actions-btn">
-            <button matButton>Annuler</button>
-            <button matButton>Précédent</button>
+            <button matButton (click)="onClose()">Annuler</button>
+            <button matButton matStepperPrevious type="button">Précédent</button>
             <button matButton type="submit" class="primary">Suivant</button>
           </div>
         </form>
       </mat-step>
 
-      <mat-step [editable]="false">
+      <mat-step>
         <ng-template matStepLabel>Ajoutez votre achat</ng-template>
         <form class="asset-form" (ngSubmit)="onSave()">
           <p class="question">A quelle date avez vous effectué cet achat ?</p>
@@ -124,8 +124,8 @@
           }
 
           <div class="actions-btn">
-            <button matButton>Annuler</button>
-            <button matButton>Précédent</button>
+            <button matButton (click)="onClose()">Annuler</button>
+            <button matButton matStepperPrevious type="button">Précédent</button>
             <button matButton type="submit" class="primary">Enregistrer</button>
           </div>
         </form>

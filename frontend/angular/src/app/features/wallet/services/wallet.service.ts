@@ -40,6 +40,14 @@ export class WalletService {
     });
   }
 
+  deleteAsset(assetId: number) {
+    this.assetApi.deleteAsset(assetId).subscribe(() => {
+      this.assets.update((assets: Asset[]) =>
+        assets.filter((asset: Asset) => asset.id !== assetId)
+        );
+    });
+  }
+
   addTransaction(assetId: number, dto: AssetTransactionCreateDto) {
     this.transactionApi.createAssetTransaction(assetId, dto).subscribe((transaction: AssetTransaction) => {
         this.assets.update((assets: Asset[]) =>
@@ -53,5 +61,20 @@ export class WalletService {
           )
         );
       });
+  }
+
+  deleteTransaction(assetId: number, transactionId: number) {
+    this.transactionApi.deleteAssetTransaction(assetId, transactionId).subscribe(() => {
+      this.assets.update((assets: Asset[]) =>
+        assets.map(asset =>
+            asset.id === assetId
+              ? {...asset, transactions: asset.transactions?.filter(
+                  transaction => transaction.id !== transactionId
+                ),
+              }
+              : asset
+        )
+      );
+    });
   }
 }

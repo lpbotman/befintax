@@ -13,10 +13,12 @@ import be.lpbconsult.befintax.wallet.mapper.AssetTransactionMapper;
 import be.lpbconsult.befintax.wallet.repository.AssetRepository;
 import be.lpbconsult.befintax.wallet.repository.WalletRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -89,7 +91,17 @@ public class AssetService {
     public AssetEntity getAssetOrThrow(Long id) {
         UserEntity currentUser = securityService.getCurrentAuthenticatedUser();
         return assetRepository.findByIdAndWalletUser(id, currentUser)
-                .orElseThrow(() -> new RuntimeException("Asset not found"));
+                .orElseThrow(() -> new AccessDeniedException("Asset not found"));
+    }
+
+    public void deleteAsset(Long id) {
+        UserEntity currentUser = securityService.getCurrentAuthenticatedUser();
+        Optional<AssetEntity> asset = assetRepository.findByIdAndWalletUser(id, currentUser);
+        if (asset.isPresent()) {
+            assetRepository.delete(asset.get());
+        } else {
+            throw new AccessDeniedException("Asset not found");
+        }
     }
 }
 

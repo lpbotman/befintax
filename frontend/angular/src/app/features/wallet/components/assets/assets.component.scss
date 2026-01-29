@@ -55,9 +55,9 @@ table {
   // Enlever la bordure du bas pour les lignes qui s'étendent
   td {
     border-bottom-width: 0;
-    padding: 12px 8px;
+    padding: 0 8px;
     color: $slate-800;
-    font-size: 0.95rem;
+    font-size: 0.80rem;
   }
 }
 
@@ -193,8 +193,10 @@ table {
   button {
     margin-left: 8px;
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 0.80rem;
     border-radius: 8px;
+    height: 35px;
+    margin-bottom: 6px;
 
     &[mat-button] {
       background: white;

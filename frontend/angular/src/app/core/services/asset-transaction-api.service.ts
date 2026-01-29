@@ -20,4 +20,8 @@ export class AssetTransactionApiService {
   createAssetTransaction(assetId: number, dto: AssetTransactionCreateDto) {
     return this.http.post<AssetTransaction>(this.baseUrl + '/assets/'+assetId+'/transactions', dto);
   }
+
+  deleteAssetTransaction(assetId: number, transactionId: number) {
+    return this.http.delete(this.baseUrl + '/assets/'+assetId+'/transactions/'+transactionId);
+  }
 }

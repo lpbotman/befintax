@@ -20,4 +20,8 @@ export class AssetApiService {
   createAsset(dto: AssetCreateDto) {
     return this.http.post<Asset>(this.baseUrl + '/assets', dto);
   }
+
+  deleteAsset(id: number) {
+    return this.http.delete(this.baseUrl + '/assets/' + id);
+  }
 }

@@ -23,10 +23,11 @@ public class InstrumentController {
     @GetMapping("/search")
     public List<InstrumentEntity> search(
             @RequestParam String query,
+            @RequestParam InstrumentType type,
             @PageableDefault(size = 10, sort = "name") Pageable pageable) {
 
         // Spring injecte directement le pageable ici
-        return instrumentService.searchInstruments(query, pageable);
+        return instrumentService.searchInstruments(query, type, pageable);
     }
 
     @PostMapping("/sync/stocks")

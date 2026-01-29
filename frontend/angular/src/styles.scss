@@ -105,3 +105,17 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
+.asset-badge {
+  background: #3f51b5;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.asset-badge-stock {background-color: #449f64;}
+.asset-badge-crypto {background-color: #F59E0B;}
+.asset-badge-etf {background-color: #06B6D4;}

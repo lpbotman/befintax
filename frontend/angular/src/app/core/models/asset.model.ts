@@ -1,5 +1,5 @@
 export interface Asset {
-  id?: number;
+  id: number;
   symbol?: string;
   name: string;
   type: AssetType;
@@ -25,7 +25,7 @@ export enum TransactionType {
 
 export enum AssetType {
   STOCK = 'STOCK',
-  BOND = 'BOND',
+//  BOND = 'BOND',
   ETF = 'ETF',
   CRYPTO = 'CRYPTO',
 }

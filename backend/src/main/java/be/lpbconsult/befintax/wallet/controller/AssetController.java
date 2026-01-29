@@ -27,5 +27,10 @@ public class AssetController {
     public List<AssetDTO> getAll() {
         return assetService.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteAsset(@PathVariable Long id){
+        assetService.deleteAsset(id);
+    }
 }
 

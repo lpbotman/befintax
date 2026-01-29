@@ -34,9 +34,9 @@
   <ng-container matColumnDef="type">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
     <td mat-cell *matCellDef="let asset">
-      <div class="label-asset-type" [style.background-color]="getAssetColor(asset.type)">
+      <span [class]="'asset-badge' + ' ' + 'asset-badge-' + asset.type.toLowerCase()">
         {{asset.type}}
-      </div>
+      </span>
     </td>
   </ng-container>
 
@@ -55,6 +55,21 @@
         (click)="openAddTransactionDialog(asset.object, TransactionType.SELL);$event.stopPropagation()">
         Vente
       </button>
+
+      <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+              (click)="$event.stopPropagation();">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Editer</span>
+        </button>
+        <button mat-menu-item (click)="deleteAsset(asset.object); ">
+          <mat-icon>delete</mat-icon>
+          <span>Supprimer</span>
+        </button>
+      </mat-menu>
     </td>
   </ng-container>
 

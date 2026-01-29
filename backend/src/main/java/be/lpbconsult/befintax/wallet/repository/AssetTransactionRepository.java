@@ -1,5 +1,6 @@
 package be.lpbconsult.befintax.wallet.repository;
 
+import be.lpbconsult.befintax.wallet.entity.AssetEntity;
 import be.lpbconsult.befintax.wallet.entity.AssetTransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface AssetTransactionRepository extends JpaRepository<AssetTransacti
     List<AssetTransactionEntity> findTransactionsWhereTaxNotCollectedByBroker(
             @Param("beginDate") LocalDate beginDate,
             @Param("endDate") LocalDate endDate);
+
+    void deleteByIdAndAsset(Long transactionId, AssetEntity asset);
 }

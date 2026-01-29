@@ -44,6 +44,8 @@ public class TwelveDataProvider implements MarketDataProvider {
 
     @Override
     public List<PricePoint> getHistory(String symbol) {
+        if(symbol==null) return Collections.emptyList();
+
         try {
             TwelveDataResponse response = restClient.get()
                     .uri(uri -> uri.path("/time_series")

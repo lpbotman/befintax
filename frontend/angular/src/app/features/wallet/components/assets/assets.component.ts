@@ -1,5 +1,5 @@
 import {Component, effect, computed, signal} from '@angular/core';
-import {MatButton, MatFabButton} from '@angular/material/button';
+import {MatButton, MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {
   MatCell,
@@ -19,6 +19,7 @@ import {AddAssetDialogComponent} from '../add-asset-dialog/add-asset-dialog.comp
 import {TransactionType} from '../../../../core/models/asset.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {AssetChartComponent} from '../../../common/asset-chart/asset-chart.component';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-assets',
@@ -41,7 +42,11 @@ import {AssetChartComponent} from '../../../common/asset-chart/asset-chart.compo
     MatHeaderCellDef,
     AssetChartComponent,
     DecimalPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    MatIconButton,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem
   ],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss',
@@ -155,6 +160,11 @@ export class AssetsComponent {
     }
   }
 
+  protected deleteAsset(asset: Asset) {
+    if(asset){
+      this.walletService.deleteAsset(asset.id);
+    }
+  }
 }
 
 interface AssetRow {

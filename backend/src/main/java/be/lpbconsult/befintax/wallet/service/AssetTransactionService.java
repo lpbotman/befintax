@@ -65,5 +65,9 @@ public class AssetTransactionService {
                 .toList();
     }
 
+    public void deleteTransaction(Long assetId, Long transactionId) {
+        AssetEntity asset = assetService.getAssetOrThrow(assetId);
+        repository.deleteByIdAndAsset(transactionId, asset);
+    }
 }
 

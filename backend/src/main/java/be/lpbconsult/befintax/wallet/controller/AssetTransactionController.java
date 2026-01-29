@@ -24,6 +24,11 @@ public class AssetTransactionController {
         return service.addTransaction(assetId, dto);
     }
 
+    @DeleteMapping("/{transactionId}")
+    public void deleteAssetTransaction(@PathVariable Long assetId, @PathVariable Long transactionId) {
+        service.deleteTransaction(assetId, transactionId);
+    }
+
 
 }
 
