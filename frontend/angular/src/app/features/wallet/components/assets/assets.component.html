@@ -13,7 +13,7 @@
 
   <ng-container matColumnDef="symbol">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbole</th>
-    <td mat-cell *matCellDef="let asset">{{asset.symbol ?? '-'}}</td>
+    <td mat-cell *matCellDef="let asset" style="padding-left: 10px;">{{asset.symbol ?? '-'}}</td>
   </ng-container>
 
   <ng-container matColumnDef="name">
@@ -21,14 +21,14 @@
     <td mat-cell *matCellDef="let asset">{{asset.name}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="totalTransactions">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr transactions</th>
-    <td mat-cell *matCellDef="let asset">{{asset.totalTransactions}}</td>
+  <ng-container matColumnDef="totalParts">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr parts</th>
+    <td mat-cell *matCellDef="let asset" style="padding-left: 30px;">{{asset.totalParts}}</td>
   </ng-container>
 
   <ng-container matColumnDef="totalValue">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
-    <td mat-cell *matCellDef="let asset">{{asset.totalValue}}</td>
+    <td mat-cell *matCellDef="let asset">{{asset.totalValue | currency: 'EUR'}}</td>
   </ng-container>
 
   <ng-container matColumnDef="type">

@@ -53,7 +53,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 })
 export class AssetsComponent {
 
-  columnsToDisplay = ['symbol', 'name', 'totalTransactions', 'totalValue', 'type'];
+  columnsToDisplay = ['symbol', 'name', 'totalParts', 'totalValue', 'type'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'action']
   walletSort = signal<Sort>({active: '', direction: ''});
 
@@ -81,9 +81,15 @@ export class AssetsComponent {
         0
       ) ?? 0;
 
+      const totalParts = asset.transactions?.reduce(
+        (acc, t) => acc + (t.type === TransactionType.BUY ? t.quantity : -t.quantity),
+        0
+      ) ?? 0;
+
       return {
         name: asset.name,
         symbol: asset.symbol,
+        totalParts: totalParts,
         totalTransactions: asset.transactions?.length ?? 0,
         totalValue,
         type: asset.type,
@@ -170,6 +176,7 @@ export class AssetsComponent {
 interface AssetRow {
   name: string;
   symbol?: string;
+  totalParts: number;
   totalTransactions: number;
   totalValue: number;
   type: string;
