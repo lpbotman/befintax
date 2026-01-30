@@ -110,8 +110,11 @@ export class AddAssetDialogComponent implements OnInit {
       ...current,
       symbol: asset.symbol,
       name: asset.name,
+      currency: asset.currency,
+      exchange: asset.exchange,
     }));
 
+    console.log(this.assetModel())
     //this.searchControl.setValue('', { emitEvent: false });
   }
 
@@ -169,6 +172,8 @@ export class AddAssetDialogComponent implements OnInit {
       stockTaxRate: assetFormValue.taxRatePercent,
       symbol: assetFormValue.symbol,
       priceEnd2025: assetFormValue.priceEnd2025,
+      currency: assetFormValue.currency,
+      exchange: assetFormValue.exchange,
       transactions: [transactionCreateDto]
     }
 

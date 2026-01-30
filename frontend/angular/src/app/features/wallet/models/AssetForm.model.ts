@@ -5,6 +5,8 @@ export type AssetForm = Omit<Asset, 'id' | 'transactions' | 'priceEnd2025'> & { 
 export const DEFAULT_CREATE_ASSET: AssetForm = {
   name: '',
   symbol: '',
+  currency: '',
+  exchange: '',
   type: AssetType.STOCK,
   taxRatePercent: 0,
   taxCollectedByBroker: false,

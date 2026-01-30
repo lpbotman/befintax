@@ -8,6 +8,8 @@ export interface AssetCreateDto {
   taxCollectedByBroker: boolean;
   stockTaxRate: number;
   priceEnd2025: number;
+  currency: string;
+  exchange: string;
   transactions?: AssetTransactionCreateDto[];
   walletId?: number;
 }

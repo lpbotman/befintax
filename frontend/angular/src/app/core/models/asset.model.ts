@@ -3,6 +3,8 @@ export interface Asset {
   symbol?: string;
   name: string;
   type: AssetType;
+  currency: string;
+  exchange: string;
   taxRatePercent: number;
   taxCollectedByBroker: boolean;
   priceEnd2025?: number;

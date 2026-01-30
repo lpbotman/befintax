@@ -12,6 +12,8 @@ public record AssetCreateDTO(
         Boolean taxCollectedByBroker,
         BigDecimal stockTaxRate,
         BigDecimal priceEnd2025,
+        String currency,
+        String exchange,
         List<AssetTransactionCreateDTO> transactions,
         Long walletId
 ) {}

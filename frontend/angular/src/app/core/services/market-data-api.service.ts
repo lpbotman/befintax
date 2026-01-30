@@ -15,9 +15,9 @@ export class MarketDataApiService {
 
   constructor(private http: HttpClient) {}
 
-  getHistory(symbol: string, type: string = AssetType.STOCK): Observable<PricePoint[]> {
+  getHistory(symbol: string, type: string = AssetType.STOCK, exchange: string = ''): Observable<PricePoint[]> {
     return this.http.get<PricePoint[]>(`${this.apiUrl}/${symbol}`, {
-      params: { type }
+      params: { type, exchange }
     });
   }
 }

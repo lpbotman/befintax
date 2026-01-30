@@ -25,8 +25,7 @@ public interface InstrumentRepository extends JpaRepository<InstrumentEntity, Lo
         SELECT i FROM InstrumentEntity i 
         WHERE (LOWER(i.name) LIKE LOWER(CONCAT('%', :query, '%')) 
            OR LOWER(i.symbol) LIKE LOWER(CONCAT('%', :query, '%')))
-           AND i.category = :category
-           AND (i.currency = 'EUR' OR (i.symbol LIKE '%/EUR' and i.category = 'CRYPTO'))
+           AND ((i.category = :category AND i.category != 'CRYPTO') OR ((i.symbol LIKE '%/EUR' or i.symbol LIKE '%/USD')  and i.category = 'CRYPTO'))
         ORDER BY i.name ASC
     """)
     List<InstrumentEntity> searchInstruments(@Param("query") String query, @Param("category") InstrumentType category, Pageable pageable);

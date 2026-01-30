@@ -59,6 +59,13 @@
             <artifactId>caffeine</artifactId>
         </dependency>
 
+        <!-- Yahoo Finance -->
+        <dependency>
+            <groupId>com.yahoofinance-api</groupId>
+            <artifactId>YahooFinanceAPI</artifactId>
+            <version>3.17.0</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

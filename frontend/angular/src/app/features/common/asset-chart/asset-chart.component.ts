@@ -16,6 +16,7 @@ import {AssetType} from '../../../core/models/asset.model'; // Important pour le
 export class AssetChartComponent implements OnChanges {
   @Input() symbol: string = '';
   @Input() assetType: string = 'STOCK';
+  @Input() exchange: string = '';
   @Input() label: string = 'Évolution du cours';
   @Input() color: string = '#4F46E5'; // Une belle couleur Indigo par défaut
 
@@ -60,7 +61,7 @@ export class AssetChartComponent implements OnChanges {
   }
 
   private loadData(): void {
-    this.marketService.getHistory(this.symbol, this.assetType).subscribe({
+    this.marketService.getHistory(this.symbol, this.assetType, this.exchange).subscribe({
       next: (data) => {
         // Préparation des données pour Chart.js
         this.lineChartData = {

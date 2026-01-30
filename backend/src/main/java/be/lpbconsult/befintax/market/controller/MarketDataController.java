@@ -20,8 +20,8 @@ public class MarketDataController {
     @GetMapping("/{symbol}")
     public List<PricePoint> getAssetHistory(
             @PathVariable String symbol,
-            @RequestParam(defaultValue = "STOCK") AssetType type) {
+            @RequestParam(defaultValue = "STOCK") AssetType type, @RequestParam String exchange) {
 
-        return marketDataService.getPriceHistory(symbol, type);
+        return marketDataService.getHistoryWithFailover(symbol, type, exchange);
     }
 }

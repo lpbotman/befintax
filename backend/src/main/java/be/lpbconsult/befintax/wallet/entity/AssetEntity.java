@@ -17,6 +17,8 @@ public class AssetEntity {
 
     private String name;
     private String symbol;
+    private String exchange;
+    private String currency;
 
     @Enumerated(EnumType.STRING)
     private AssetType type;
@@ -100,6 +102,22 @@ public class AssetEntity {
 
     public void setWallet(WalletEntity wallet) {
         this.wallet = wallet;
+    }
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(String exchange) {
+        this.exchange = exchange;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
 
