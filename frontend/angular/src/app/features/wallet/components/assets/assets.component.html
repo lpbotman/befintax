@@ -84,12 +84,13 @@
         <div class="asset-detail-inner">
 
           <div class="instrument-chart">
-            <app-asset-chart
-              [symbol]="asset.symbol"
-              [assetType]="asset.type"
-              [exchange]="asset.object.exchange"
-              [label]="asset.name"
-              [color]="getAssetColor(asset.type)"> </app-asset-chart>
+            @if (isExpanded(asset.object)) {
+              <app-asset-chart
+                [asset]="asset.object"
+                [label]="asset.name"
+                [color]="getAssetColor(asset.type)">
+              </app-asset-chart>
+            }
           </div>
 
           <div class="transactions-panel">
