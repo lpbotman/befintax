@@ -168,7 +168,19 @@ export class AssetsComponent {
 
   protected deleteAsset(asset: Asset) {
     if(asset){
-      this.walletService.deleteAsset(asset.id);
+      const confirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cet actif et les transactions associées ?");
+
+      if (confirmed) {
+        this.walletService.deleteAsset(asset.id);
+      }
+    }
+  }
+
+  protected deleteTransaction(asset: Asset, transactionId: number) {
+    const confirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette transaction ?");
+
+    if (confirmed) {
+      this.walletService.deleteTransaction(asset.id, transactionId);
     }
   }
 }

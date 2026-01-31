@@ -29,6 +29,13 @@ import {DateTime} from 'luxon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Subject, takeUntil} from 'rxjs';
+import {MAT_DATE_FORMATS} from '@angular/material/core';
+
+export const YEARMONTH_FORMATS = {
+  parse: {dateInput: 'MM/yyyy'},
+  display: {dateInput: 'MM/yyyy', monthYearLabel: 'MMM yyyy', dateA11yLabel: 'DD', monthYearA11yLabel: 'MMMM yyyy'},
+};
+
 
 @Component({
   selector: 'app-assets-transactions-tax',
@@ -67,6 +74,9 @@ import {Subject, takeUntil} from 'rxjs';
     DatePipe,
     TitleCasePipe,
     MatProgressSpinner,
+  ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: YEARMONTH_FORMATS }
   ],
   templateUrl: './assets-transactions-tax.component.html',
   styleUrl: './assets-transactions-tax.component.scss',

@@ -2,7 +2,7 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AssetTransaction, AssetType} from '../../../../core/models/asset.model';
 import {form, FormField, required} from '@angular/forms/signals';
-import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatError, MatFormField, MatHint, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {
   MatDialogContent,
@@ -37,13 +37,21 @@ import {Instrument} from '../../../../core/models/Instrument.model';
 import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatLuxonDateModule, provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
+import {MY_DATE_FORMATS} from '../../../../app.config';
 
 @Component({
   selector: 'app-add-asset-dialog',
   standalone: true,
   imports: [FormsModule, FormField, MatFormField, MatLabel, MatInput, MatButton, MatDialogContent,
     MatStepper, MatStep, MatStepLabel, MatRadioGroup, MatRadioButton,
-    MatChipListbox, MatChipOption, MatAutocomplete, MatAutocompleteTrigger, MatOption, MatIcon, AsyncPipe, ReactiveFormsModule, TranslatePipe, MatIconButton, MatError, MatStepperPrevious],
+    MatChipListbox, MatChipOption, MatAutocomplete, MatAutocompleteTrigger, MatOption, MatIcon,
+    AsyncPipe, ReactiveFormsModule, TranslatePipe, MatIconButton, MatError, MatStepperPrevious, MatHint,
+    MatDatepickerToggle, MatDatepicker, MatDatepickerInput, MatSuffix],
+  providers: [
+    provideLuxonDateAdapter(MY_DATE_FORMATS)
+  ],
   templateUrl: './add-asset-dialog.component.html',
   styleUrls: ['./add-asset-dialog.component.scss']
 })

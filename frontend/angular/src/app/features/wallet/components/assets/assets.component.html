@@ -101,11 +101,17 @@
                   <div class="timeline-marker" [class.marker-buy]="transaction.type === 'BUY'" [class.marker-sell]="transaction.type === 'SELL'"></div>
                   <div class="timeline-content">
                     <div class="t-date">{{transaction.date | date: 'dd MMM yyyy'}}</div>
-                    <div class="t-details">
-                    <span [class.text-buy]="transaction.type === 'BUY'" [class.text-sell]="transaction.type === 'SELL'">
-                      {{transaction.type === 'BUY' ? 'Achat' : 'Vente'}}
-                    </span>
-                      de <strong>{{transaction.quantity}}</strong> parts à {{transaction.price | number:'1.2-2'}} {{transaction.currency}}
+                    <div class="flex-row justify-between">
+                      <div class="t-details">
+                        <span [class.text-buy]="transaction.type === 'BUY'" [class.text-sell]="transaction.type === 'SELL'">
+                          {{transaction.type === 'BUY' ? 'Achat' : 'Vente'}}
+                        </span>
+                        de <strong>{{transaction.quantity}}</strong> parts à {{transaction.price | number:'1.2-2'}} {{transaction.currency}}
+                      </div>
+                      <mat-icon class="delete-transactions-btn"
+                                (click)="deleteTransaction(asset.object, transaction.id)">
+                        close
+                      </mat-icon>
                     </div>
                   </div>
                 </div>

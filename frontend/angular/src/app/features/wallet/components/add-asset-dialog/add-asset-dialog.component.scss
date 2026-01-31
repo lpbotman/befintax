@@ -58,10 +58,32 @@ mat-chip-option:hover {
   width: 100%;
 }
 
+::ng-deep .mat-mdc-autocomplete-panel{
+  background-color: white !important;
+}
+
 .symbol {
   font-weight: bold;
   margin-right: 8px;
 }
+
+.currency{
+  background-color: #798079;
+  color:white;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-left: 8px;
+
+  &.eur {
+    background-color: #1e40af;
+  }
+
+  &.usd {
+    background-color: #51a151;
+  }
+}
+
 
 .name {
   color: #666;
@@ -135,4 +157,8 @@ mat-chip-option:hover {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
+}
+
+.question-input{
+  width: 250px;
 }

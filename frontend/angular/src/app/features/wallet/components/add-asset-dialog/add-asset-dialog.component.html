@@ -38,6 +38,7 @@
                   <span class="symbol">{{ instrument.symbol }}</span>
                   <span class="name"> - {{ instrument.name }}</span>
                   <span class="exchange"> - {{ 'exchanges.' + instrument.exchange | translate }}</span>
+                  <span [class]="'currency ' + instrument.currency.toLowerCase()">{{ instrument.currency }}</span>
                 </mat-option>
               } @empty {
                 @if (searchTextLength > 1) {
@@ -98,33 +99,40 @@
         <ng-template matStepLabel>Ajoutez votre achat</ng-template>
         <form class="asset-form" (ngSubmit)="onSave()">
           <p class="question">A quelle date avez vous effectué cet achat ?</p>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="question-input">
             <mat-label>Date d'achat</mat-label>
-            <input matInput type="date" [formField]="transactionForm.date" />
+            <input matInput
+                   [matDatepicker]="picker"
+                   [formField]="transactionForm.date" /> <mat-hint>JJ/MM/AAAA</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
 
           <p class="question">Lors de cet achat, combien de parts avez-vous achetées ?</p>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="question-input">
             <mat-label>Quantité</mat-label>
             <input matInput type="number" [formField]="transactionForm.quantity" />
+            <span matTextSuffix>Part(s)</span>
           </mat-form-field>
 
           <p class="question">Quel est le montant total de l'achat (hors frais du broker) ?</p>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="question-input">
             <mat-label>Prix</mat-label>
             <input matInput type="number" [formField]="transactionForm.price" />
+            <span matTextSuffix>EUR</span>
           </mat-form-field>
 
           @if(showEnd2025Price){
             <p class="question">Afin de calculer la taxe sur la plus-value, quelle était la valeur d'une part au 31/12/2025 ?</p>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="question-input">
               <mat-label>Prix</mat-label>
               <input matInput type="number" [formField]="assetForm.priceEnd2025" />
+              <span matTextSuffix>EUR/Part</span>
             </mat-form-field>
           }
 
           <div class="actions-btn">
-            <button matButton (click)="onClose()">Annuler</button>
+            <button matButton (click)="onClose()" type="button">Annuler</button>
             <button matButton matStepperPrevious type="button">Précédent</button>
             <button matButton type="submit" class="primary">Enregistrer</button>
           </div>

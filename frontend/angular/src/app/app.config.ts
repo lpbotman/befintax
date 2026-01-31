@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import {ApplicationConfig, LOCALE_ID} from '@angular/core';
 import {HttpClient, provideHttpClient, withInterceptors} from '@angular/common/http';
 
 import {provideTranslateLoader, provideTranslateService, TranslateLoader} from '@ngx-translate/core';
@@ -13,12 +13,18 @@ import {
 import {environment} from '../environments/environment';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
-export const YEARMONTH_FORMATS = {
-  parse: {dateInput: 'MM/yyyy'},
-  display: {dateInput: 'MM/yyyy', monthYearLabel: 'MMM yyyy', dateA11yLabel: 'DD', monthYearA11yLabel: 'MMMM yyyy'},
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/yyyy', // Format saisi
+  },
+  display: {
+    dateInput: 'dd/MM/yyyy', // Format affiché
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'DDD',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
 };
-
-
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,7 +51,8 @@ export const appConfig: ApplicationConfig = {
     },
     provideRouter(routes),
     provideCharts(withDefaultRegisterables()),
-    provideLuxonDateAdapter(YEARMONTH_FORMATS),
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    provideLuxonDateAdapter(MY_DATE_FORMATS),
     AutoRefreshTokenService,
     UserActivityService,
     provideKeycloak({
