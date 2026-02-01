@@ -4,10 +4,7 @@ import { AssetTransaction, AssetType} from '../../../../core/models/asset.model'
 import {form, FormField, required} from '@angular/forms/signals';
 import {MatError, MatFormField, MatHint, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {
-  MatDialogContent,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import {MatDialogContent,MatDialogRef} from '@angular/material/dialog';
 import {DEFAULT_CREATE_ASSET} from '../../models/AssetForm.model';
 import {DEFAULT_CREATE_TRANSACTION} from '../../models/AssetTransactionForm.model';
 import {MatStep, MatStepLabel, MatStepper, MatStepperPrevious} from '@angular/material/stepper';
@@ -16,29 +13,15 @@ import {MatChipListbox, MatChipOption} from '@angular/material/chips';
 import {WalletService} from '../../services/wallet.service';
 import {AssetCreateDto} from '../../dtos/asset-create.dto';
 import {AssetTransactionCreateDto} from '../../dtos/asset-transaction-create.dto';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, filter, map, Observable, of,switchMap} from 'rxjs';
 import {InstrumentApiService} from '../../../../core/services/instrument-api.service';
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-  MatOption
-} from '@angular/material/autocomplete';
+import {MatAutocomplete,MatAutocompleteSelectedEvent,MatAutocompleteTrigger,MatOption} from '@angular/material/autocomplete';
 import {Instrument} from '../../../../core/models/Instrument.model';
 import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {MatLuxonDateModule, provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
+import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
 import {MY_DATE_FORMATS} from '../../../../app.config';
 
 @Component({
@@ -184,6 +167,7 @@ export class AddAssetDialogComponent implements OnInit {
       exchange: assetFormValue.exchange,
       transactions: [transactionCreateDto]
     }
+    console.log(assetCreateDto);
 
     this.walletService.addAsset(assetCreateDto);
   }
