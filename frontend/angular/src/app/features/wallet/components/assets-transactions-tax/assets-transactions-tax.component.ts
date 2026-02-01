@@ -1,29 +1,13 @@
 import {Component, NgZone, OnDestroy, OnInit, signal} from '@angular/core';
 import {TaxesApiService} from '../../../../core/services/taxes-api.service';
 import {AssetTransactionTaxDto} from '../../dtos/asset-transaction-tax.dto';
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-} from '@angular/material/table';
+import {MatCell, MatCellDef,MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable} from '@angular/material/table';
 import {CurrencyPipe, DatePipe, TitleCasePipe} from '@angular/common';
-import {
-  MatExpansionPanel,
-  MatExpansionPanelHeader,
-  MatExpansionPanelTitle
-} from '@angular/material/expansion';
+import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatFormField, MatHint, MatInput, MatInputModule, MatLabel} from '@angular/material/input';
-import {
-  MatDatepicker,
-  MatDatepickerInput,
-  MatDatepickerModule,
-  MatDatepickerToggle
-} from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DateTime} from 'luxon';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -148,7 +132,7 @@ export class AssetsTransactionsTaxComponent implements OnInit, OnDestroy{
       const sorted = txList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
       const totalPrice = sorted.reduce((sum, t) => sum + t.price, 0);
-      const totalTaxAmount = sorted.reduce((sum, t) => sum + t.taxAmount, 0);
+      const totalTaxAmount = Math.round((totalPrice * taxRate / 100 + Number.EPSILON) * 100) / 100;
 
       groups.push({
         taxRate,
