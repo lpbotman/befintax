@@ -26,7 +26,7 @@ export class WalletComponent implements OnInit {
     return assets.reduce((acc, asset) => {
       const totalValue = asset.transactions
         ? asset.transactions.reduce((acc, transaction) =>
-          acc + (transaction.quantity * transaction.price) * (transaction.type === TransactionType.BUY ? 1 : -1), 0)
+          acc + (transaction.price) * (transaction.type === TransactionType.BUY ? 1 : -1), 0)
         :
         0;
       return acc + totalValue;
