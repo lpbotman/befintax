@@ -16,6 +16,7 @@ import java.util.List;
 
 record TwelveDataResponse(List<TwelveDataValue> values, String status, String message){}
 record TwelveDataValue(String datetime, String close) {}
+record TwelveDataQuoteResponse(String symbol, String close, String currency, String status, String message) {}
 
 @Service
 public class TwelveDataProvider implements MarketDataProvider {
@@ -43,15 +44,27 @@ public class TwelveDataProvider implements MarketDataProvider {
     }
 
     @Override
-    public List<PricePoint> getHistory(String symbol) {
+    public BigDecimal getPrice(String symbol, String exchangeCode, LocalDate valueDate) {
+        List<PricePoint> prices = getHistory(symbol, exchangeCode, valueDate, valueDate);
+        if (prices.isEmpty()) {
+            throw new RuntimeException("No price found for " + symbol);
+        }
+        return prices.getFirst().price();
+    }
+
+    @Override
+    public List<PricePoint> getHistory(String symbol, String exchangeCode, LocalDate fromDate, LocalDate toDate) {
         if(symbol==null) return Collections.emptyList();
 
         try {
             TwelveDataResponse response = restClient.get()
                     .uri(uri -> uri.path("/time_series")
                             .queryParam("symbol", symbol)
+                            .queryParam("exchange", exchangeCode)
+                            .queryParam("start_date", fromDate.toString())
+                            .queryParam("end_date", toDate.toString())
                             .queryParam("interval", "1day")
-                            .queryParam("outputsize", "90")
+                            //.queryParam("outputsize", "90")
                             .queryParam("apikey", apiKey)
                             .build())
                     .retrieve()
@@ -60,7 +73,6 @@ public class TwelveDataProvider implements MarketDataProvider {
             // 1. Vérification du statut spécifique à Twelve Data
             if (response != null && "error".equals(response.status())) {
                 log.warn("TwelveData a renvoyé une erreur pour {} : {}", symbol, response.message());
-                // On jette une exception pour NE PAS mettre l'erreur en cache
                 throw new RuntimeException("Quota dépassé ou symbole invalide");
             }
 

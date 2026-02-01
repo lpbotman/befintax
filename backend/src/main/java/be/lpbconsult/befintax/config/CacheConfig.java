@@ -13,7 +13,7 @@ public class CacheConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("asset-prices");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("asset-prices-history", "asset-price");
         cacheManager.setCaffeine(caffeineCacheBuilder());
         return cacheManager;
     }

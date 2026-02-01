@@ -19,7 +19,6 @@ export class WalletService {
 
   constructor(private assetApi: AssetApiService,
               private transactionApi: AssetTransactionApiService,
-              private taxesApi: TaxesApiService,
               private walletApi: WalletApiService) {}
 
   async loadAWallet() {

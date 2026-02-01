@@ -34,12 +34,20 @@ public class YahooFinanceProvider implements MarketDataProvider {
     }
 
     @Override
-    public List<PricePoint> getHistory(String symbol) {
+    public BigDecimal getPrice(String symbol, String exchangeCode, LocalDate valueDate) {
+        List<PricePoint> prices = getHistory(symbol, exchangeCode, valueDate, valueDate);
+        if (prices.isEmpty()) {
+            throw new RuntimeException("No price found for " + symbol);
+        }
+        return prices.getFirst().price();
+    }
+
+    @Override
+    public List<PricePoint> getHistory(String symbol, String exchangeCode, LocalDate fromDate, LocalDate toDate) {
         if (symbol == null || symbol.isBlank()) return Collections.emptyList();
 
-        // URL de téléchargement CSV (plus stable que l'API JSON v7)
-        long end = System.currentTimeMillis() / 1000;
-        long start = end - (90 * 24 * 60 * 60); // 90 jours
+        long start = fromDate.atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
+        long end = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toEpochSecond();
 
         String url = String.format(
                 "https://query2.finance.yahoo.com/v8/finance/chart/%s?period1=%d&period2=%d&interval=1d&events=history",

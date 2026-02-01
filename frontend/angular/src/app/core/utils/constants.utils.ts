@@ -1,0 +1,2 @@
+
+export const USD_EUR_CURRENCY_RATE_END_2025 = 1.175;

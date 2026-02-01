@@ -1,6 +1,6 @@
-import {Component, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, computed, effect, inject, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { AssetTransaction, AssetType} from '../../../../core/models/asset.model';
+import { AssetType} from '../../../../core/models/asset.model';
 import {form, FormField, required} from '@angular/forms/signals';
 import {MatError, MatFormField, MatHint, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatButton, MatIconButton} from '@angular/material/button';
@@ -13,7 +13,18 @@ import {MatChipListbox, MatChipOption} from '@angular/material/chips';
 import {WalletService} from '../../services/wallet.service';
 import {AssetCreateDto} from '../../dtos/asset-create.dto';
 import {AssetTransactionCreateDto} from '../../dtos/asset-transaction-create.dto';
-import {catchError, debounceTime, distinctUntilChanged, filter, map, Observable, of,switchMap} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  takeUntil
+} from 'rxjs';
 import {InstrumentApiService} from '../../../../core/services/instrument-api.service';
 import {MatAutocomplete,MatAutocompleteSelectedEvent,MatAutocompleteTrigger,MatOption} from '@angular/material/autocomplete';
 import {Instrument} from '../../../../core/models/Instrument.model';
@@ -23,6 +34,8 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
 import {MY_DATE_FORMATS} from '../../../../app.config';
+import {MarketDataApiService} from '../../../../core/services/market-data-api.service';
+import {USD_EUR_CURRENCY_RATE_END_2025} from '../../../../core/utils/constants.utils';
 
 @Component({
   selector: 'app-add-asset-dialog',
@@ -38,7 +51,12 @@ import {MY_DATE_FORMATS} from '../../../../app.config';
   templateUrl: './add-asset-dialog.component.html',
   styleUrls: ['./add-asset-dialog.component.scss']
 })
-export class AddAssetDialogComponent implements OnInit {
+export class AddAssetDialogComponent implements OnInit, OnDestroy {
+  marketDataService = inject(MarketDataApiService);
+  walletService = inject(WalletService);
+  instrumentApiService = inject(InstrumentApiService);
+
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
@@ -62,9 +80,33 @@ export class AddAssetDialogComponent implements OnInit {
 
   filteredInstruments$!: Observable<Instrument[]>;
 
-  constructor(public dialogRef: MatDialogRef<AddAssetDialogComponent>,
-              private walletService: WalletService,
-              private instrumentApiService: InstrumentApiService) {
+  constructor(public dialogRef: MatDialogRef<AddAssetDialogComponent>) {
+    effect(() => {
+      const date = this.transactionForm.date()?.value();
+      const currency = this.assetForm.currency().value();
+
+      if( !(currency === 'EUR' || currency === 'USD')) return;
+
+      if (!date) return;
+
+      if (date < new Date('2025-12-31')) {
+        this.marketDataService
+          .getPriceEnd2025(
+            this.assetForm.symbol().value(),
+            this.assetForm.exchange().value()
+          )
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(price => {
+            const convertedPrice =
+              currency === 'EUR'
+                ? Math.round((price / USD_EUR_CURRENCY_RATE_END_2025 + Number.EPSILON) * 100) / 100
+                : Math.round((price + Number.EPSILON) * 100) / 100;
+
+            this.assetForm.priceEnd2025().setControlValue(convertedPrice);
+            console.log(price);
+          });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -142,11 +184,6 @@ export class AddAssetDialogComponent implements OnInit {
     const assetFormValue = this.assetModel();
     const transactionFormValue = this.transactionModel();
 
-    const transaction: AssetTransaction = {
-      id: crypto.randomUUID() as any, // ou backend
-      ...transactionFormValue,
-    };
-
     const transactionCreateDto: AssetTransactionCreateDto = {
       date: transactionFormValue.date,
       quantity: transactionFormValue.quantity,
@@ -175,14 +212,15 @@ export class AddAssetDialogComponent implements OnInit {
   protected readonly AssetType = AssetType;
   protected readonly Object = Object;
 
-  get showEnd2025Price(): boolean {
+  showEnd2025Price = computed(() => {
     const dateField = this.transactionForm.date();
     if (!dateField?.value) return false;
 
     const selectedDate = dateField.value;
     const limit = new Date('2025-12-31');
     return selectedDate() < limit;
-  }
+  });
+
 
   protected onSave() {
     if (this.stepper.selectedIndex === 0) {
@@ -220,5 +258,10 @@ export class AddAssetDialogComponent implements OnInit {
 
   protected onClose() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

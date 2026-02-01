@@ -2,6 +2,9 @@ package be.lpbconsult.befintax.market.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "instruments", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"symbol", "mic_code"})
@@ -18,6 +21,10 @@ public class InstrumentEntity {
     private String exchange;
     private String micCode;
     private String country;
+    private BigDecimal price;
+    private LocalDateTime lastUpdatePrice;
+    private BigDecimal closePrice2025;
+
 
     @Enumerated(EnumType.STRING)
     private InstrumentType category; // STOCK, ETF, CRYPTO
@@ -84,5 +91,29 @@ public class InstrumentEntity {
 
     public void setCategory(InstrumentType category) {
         this.category = category;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public LocalDateTime getLastUpdatePrice() {
+        return lastUpdatePrice;
+    }
+
+    public void setLastUpdatePrice(LocalDateTime lastUpdatePrice) {
+        this.lastUpdatePrice = lastUpdatePrice;
+    }
+
+    public BigDecimal getClosePrice2025() {
+        return closePrice2025;
+    }
+
+    public void setClosePrice2025(BigDecimal closePrice2025) {
+        this.closePrice2025 = closePrice2025;
     }
 }

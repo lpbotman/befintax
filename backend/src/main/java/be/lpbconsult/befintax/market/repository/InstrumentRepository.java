@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -22,11 +23,20 @@ public interface InstrumentRepository extends JpaRepository<InstrumentEntity, Lo
     void deleteByCategory(@Param("category") InstrumentType category);
 
     @Query("""
-        SELECT i FROM InstrumentEntity i 
-        WHERE (LOWER(i.name) LIKE LOWER(CONCAT('%', :query, '%')) 
+        SELECT i FROM InstrumentEntity i
+        WHERE (LOWER(i.name) LIKE LOWER(CONCAT('%', :query, '%'))
            OR LOWER(i.symbol) LIKE LOWER(CONCAT('%', :query, '%')))
-           AND ((i.category = :category AND i.category != 'CRYPTO') OR ((i.symbol LIKE '%/EUR' or i.symbol LIKE '%/USD')  and i.category = 'CRYPTO'))
-        ORDER BY i.name ASC
+           AND ((i.category = :category AND i.category != 'CRYPTO')
+                OR ((i.symbol LIKE '%/EUR' OR i.symbol LIKE '%/USD') AND i.category = 'CRYPTO'))
+        ORDER BY
+           CASE
+             WHEN i.currency = 'USD' THEN 1
+             WHEN i.currency = 'EUR' THEN 2
+             ELSE 3
+           END ASC,
+           i.name ASC
     """)
     List<InstrumentEntity> searchInstruments(@Param("query") String query, @Param("category") InstrumentType category, Pageable pageable);
+
+    Optional<InstrumentEntity> findBySymbolAndExchange(String symbol, String exchange);
 }
