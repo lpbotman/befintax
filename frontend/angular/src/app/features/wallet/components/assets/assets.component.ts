@@ -11,7 +11,6 @@ import {
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
 import {CurrencyPipe, DatePipe, DecimalPipe} from '@angular/common';
-import {MatList, MatListItem} from '@angular/material/list';
 import {MatSort, MatSortHeader, Sort} from '@angular/material/sort';
 import {WalletService} from '../../services/wallet.service';
 import {Asset} from '../../../../core/models/asset.model';
@@ -77,7 +76,7 @@ export class AssetsComponent {
 
     const assetRows: AssetRow[] = assets.map(asset => {
       const totalValue = asset.transactions?.reduce(
-        (acc, t) => acc + t.quantity * t.price,
+        (acc, t) => acc + (t.type === TransactionType.BUY ? t.price : -t.price),
         0
       ) ?? 0;
 

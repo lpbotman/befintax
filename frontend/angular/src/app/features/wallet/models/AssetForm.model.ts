@@ -8,7 +8,7 @@ export const DEFAULT_CREATE_ASSET: AssetForm = {
   currency: '',
   exchange: '',
   type: AssetType.STOCK,
-  taxRatePercent: 0,
+  taxRatePercent: 0.35,
   taxCollectedByBroker: false,
   priceEnd2025: 0
 };
