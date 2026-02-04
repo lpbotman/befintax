@@ -35,7 +35,7 @@ jobs:
           context: frontend/angular
           push: true
           # AJOUT ICI : Génère les deux architectures
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           tags: ghcr.io/lpbotman/befintax-frontend:latest
 
       # --- BUILD BACKEND ---
@@ -44,5 +44,5 @@ jobs:
         with:
           context: backend
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           tags: ghcr.io/lpbotman/befintax-backend:latest
