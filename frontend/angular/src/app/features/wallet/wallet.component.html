@@ -1,7 +1,7 @@
 <div class="container flex-column">
   <div class="title">
     <h1>Votre portefeuille</h1>
-    <div class="total-wallet">Total investi : {{totalWalletValue | currency:'EUR'}}</div>
+    <div class="total-wallet">Total investi : {{totalWalletValue() | currency:'EUR'}}</div>
   </div>
 
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">

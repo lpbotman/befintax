@@ -1,4 +1,4 @@
-import {Component, effect, computed, signal} from '@angular/core';
+import {Component, effect, computed, signal, inject} from '@angular/core';
 import {MatButton, MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {
@@ -19,6 +19,9 @@ import {TransactionType} from '../../../../core/models/asset.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {AssetChartComponent} from '../../../common/asset-chart/asset-chart.component';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {of, switchMap, timer} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {MarketDataApiService} from '../../../../core/services/market-data-api.service';
 
 @Component({
   selector: 'app-assets',
@@ -52,17 +55,19 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 })
 export class AssetsComponent {
 
-  columnsToDisplay = ['symbol', 'name', 'totalParts', 'totalValue', 'type'];
+  columnsToDisplay = ['symbol', 'name', 'quantity', 'actualValue', 'type'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'action']
   walletSort = signal<Sort>({active: '', direction: ''});
-
   expandedAsset: Asset | null = null;
-
   protected readonly TransactionType = TransactionType;
 
   constructor(private dialog: MatDialog, private walletService: WalletService) {
     effect(() => {
       const assets: Asset[] = this.walletService.assets();
+    });
+
+    timer(0, 30000).pipe(takeUntilDestroyed()).subscribe(() => {
+      this.walletService.refreshAllPrices();
     });
   }
 
@@ -72,25 +77,32 @@ export class AssetsComponent {
 
   assetsDatasource = computed(() => {
     const assets = this.walletService.assets();
+    const prices = this.walletService.marketPrices();
     const { active, direction } = this.walletSort();
 
     const assetRows: AssetRow[] = assets.map(asset => {
-      const totalValue = asset.transactions?.reduce(
+      const priceKey = `${asset.symbol}:${asset.exchange}`;
+      const currentPrice = prices[priceKey] || 0;
+
+      const buyingValue = asset.transactions?.reduce(
         (acc, t) => acc + (t.type === TransactionType.BUY ? t.price : -t.price),
         0
       ) ?? 0;
 
-      const totalParts = asset.transactions?.reduce(
+      const quantity = asset.transactions?.reduce(
         (acc, t) => acc + (t.type === TransactionType.BUY ? t.quantity : -t.quantity),
         0
       ) ?? 0;
 
+      const actualValue = (currentPrice != 0) ? quantity * currentPrice : buyingValue;
+
       return {
         name: asset.name,
         symbol: asset.symbol,
-        totalParts: totalParts,
+        quantity: quantity,
         totalTransactions: asset.transactions?.length ?? 0,
-        totalValue,
+        buyingValue: buyingValue,
+        actualValue: actualValue,
         type: asset.type,
         object: asset
       };
@@ -187,9 +199,10 @@ export class AssetsComponent {
 interface AssetRow {
   name: string;
   symbol?: string;
-  totalParts: number;
+  quantity: number;
   totalTransactions: number;
-  totalValue: number;
+  buyingValue: number;
+  actualValue: number;
   type: string;
   object: any;
 }

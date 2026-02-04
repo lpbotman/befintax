@@ -127,3 +127,13 @@ input[type=number] {
 .asset-badge-stock {background-color: #449f64;}
 .asset-badge-crypto {background-color: #F59E0B;}
 .asset-badge-etf {background-color: #06B6D4;}
+
+.warning-text {
+  display: flex;
+  flex-direction: row;
+  background-color:#dbe5f8;
+  padding:5px 15px;
+  border-radius: 5px;
+  align-items: center;
+  border-left: 6px solid #599ad1;
+}

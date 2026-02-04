@@ -27,6 +27,7 @@ export class MarketDataApiService {
     })
   }
 
+
   getPriceEnd2025(symbol: string, exchange: string = ''): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/${symbol}/price/end2025`, {
       params: { exchange }

@@ -21,14 +21,14 @@
     <td mat-cell *matCellDef="let asset">{{asset.name}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="totalParts">
+  <ng-container matColumnDef="quantity">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr parts</th>
-    <td mat-cell *matCellDef="let asset" style="padding-left: 30px;">{{asset.totalParts}}</td>
+    <td mat-cell *matCellDef="let asset" style="padding-left: 30px;">{{asset.quantity}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="totalValue">
+  <ng-container matColumnDef="actualValue">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
-    <td mat-cell *matCellDef="let asset">{{asset.totalValue | currency: 'EUR'}}</td>
+    <td mat-cell *matCellDef="let asset">{{asset.actualValue | currency: 'EUR'}}</td>
   </ng-container>
 
   <ng-container matColumnDef="type">
