@@ -144,7 +144,6 @@ export class WalletService {
     this.marketDataService.getPriceLive('EUR=X', 'FOREX').subscribe(rate => {
       if (rate > 0) {
         this.usdEurRate.set(rate);
-        console.log(rate);
       }
     });
   }

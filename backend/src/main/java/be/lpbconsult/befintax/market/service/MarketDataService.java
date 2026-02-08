@@ -94,9 +94,9 @@ public class MarketDataService {
 
         for (MarketDataProvider provider : providers) {
             log.info("getPrice({})", provider.getProviderName());
-            try {
-                List<String> candidateSymbols = getCandidateSymbols(symbol, exchangeCode, provider.getProviderName());
-                for (String adjustedSymbol : candidateSymbols) {
+            List<String> candidateSymbols = getCandidateSymbols(symbol, exchangeCode, provider.getProviderName());
+            for (String adjustedSymbol : candidateSymbols) {
+                try {
                     BigDecimal price = provider.getPrice(adjustedSymbol, exchangeCode, valueDate);
                     if (price != null) {
                         updateInstrumentPriceAsync(symbol, exchangeCode, valueDate, price);
@@ -105,10 +105,9 @@ public class MarketDataService {
                     if ("YAHOO_FINANCE".equals(provider.getProviderName())) {
                         Thread.sleep(500);
                     }
+                }catch (Exception e) {
+                    log.error("Erreur lors de la récupération du prix pour {} : {}", symbol, e.getMessage());
                 }
-
-            }catch (Exception e) {
-                log.error("Erreur lors de la récupération du prix pour {} : {}", symbol, e.getMessage());
             }
         }
         throw new IllegalArgumentException("No provider can retrieve price");

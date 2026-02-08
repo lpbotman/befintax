@@ -65,7 +65,6 @@ export class TransactionDialogComponent {
     }
 
     this.transactionModel().type = this.transactionDialogData.transactionType;
-console.log(this.transactionModel());
     this.walletService.addTransaction(this.transactionDialogData.assetId, this.transactionModel());
     this.dialogRef.close(this.transactionModel());
   }
