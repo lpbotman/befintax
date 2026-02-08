@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public record AssetTransactionCreateDTO(
         TransactionType type,
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDate date,
         BigDecimal quantity,
         BigDecimal price,
