@@ -5,6 +5,7 @@ import be.lpbconsult.befintax.wallet.dto.AssetTransactionDTO;
 import be.lpbconsult.befintax.wallet.dto.AssetTransactionTaxDTO;
 import be.lpbconsult.befintax.wallet.entity.AssetEntity;
 import be.lpbconsult.befintax.wallet.entity.AssetTransactionEntity;
+import be.lpbconsult.befintax.wallet.mapper.AssetMapper;
 import be.lpbconsult.befintax.wallet.mapper.AssetTransactionMapper;
 import be.lpbconsult.befintax.wallet.repository.AssetRepository;
 import be.lpbconsult.befintax.wallet.repository.AssetTransactionRepository;
@@ -22,26 +23,29 @@ import java.util.Optional;
 public class AssetTransactionService {
 
     private final AssetTransactionRepository repository;
-    private final AssetTransactionMapper mapper;
+    private final AssetTransactionMapper transactionMapper;
+    private final AssetMapper assetMapper;
     private final AssetService assetService;
 
     public AssetTransactionService(
             AssetTransactionRepository repository,
-            AssetTransactionMapper mapper,
+            AssetTransactionMapper transactionMapper,
+            AssetMapper assetMapper,
             AssetService assetService,
             AssetRepository assetRepository) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.transactionMapper = transactionMapper;
+        this.assetMapper = assetMapper;
         this.assetService = assetService;
     }
 
     public AssetTransactionDTO addTransaction(Long assetId, AssetTransactionCreateDTO dto) {
         AssetEntity asset = assetService.getAssetOrThrow(assetId);
 
-        AssetTransactionEntity tx = mapper.toEntity(dto);
+        AssetTransactionEntity tx = transactionMapper.toEntity(dto);
         tx.setAsset(asset);
 
-        return mapper.toDto(repository.save(tx));
+        return transactionMapper.toDto(repository.save(tx));
     }
 
     public List<AssetTransactionTaxDTO> findTransactionsWhereTaxNotCollectedByBroker(Optional<LocalDate> beginDate, Optional<LocalDate> endDate) {
@@ -56,6 +60,7 @@ public class AssetTransactionService {
 
                     return new AssetTransactionTaxDTO(
                             transaction.getId(),
+                            assetMapper.toDto(transaction.getAsset()),
                             transaction.getDate(),
                             transaction.getPrice(),
                             transaction.getAsset().getStockTaxRate(),

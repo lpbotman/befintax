@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Subject, takeUntil} from 'rxjs';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
+import {Asset} from '../../../../core/models/asset.model';
 
 export const YEARMONTH_FORMATS = {
   parse: {dateInput: 'MM/yyyy'},
@@ -69,7 +70,7 @@ export class AssetsTransactionsTaxComponent implements OnInit, OnDestroy{
 
   groups = signal<TaxRateGroup[]>([]);
 
-  displayedColumns = ['date', 'price', 'taxAmount'];
+  displayedColumns = ['date', 'name', 'price', 'taxAmount'];
   isLoadingTransactions = signal<boolean>(false);
 
   private destroy$ = new Subject<void>();
@@ -171,6 +172,7 @@ export interface TaxRateGroup {
 export interface TransactionRow {
   type: 'transaction' | 'total';
   date?: string;
+  asset: Asset;
   price?: number;
   taxAmount?: number;
   taxRate: number;
