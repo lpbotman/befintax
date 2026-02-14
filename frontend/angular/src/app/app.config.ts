@@ -5,13 +5,14 @@ import {provideTranslateLoader, provideTranslateService, TranslateLoader} from '
 import {provideTranslateHttpLoader, TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
-import {provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
+import {MAT_LUXON_DATE_ADAPTER_OPTIONS, provideLuxonDateAdapter} from '@angular/material-luxon-adapter';
 import {
   AutoRefreshTokenService, createInterceptorCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
   includeBearerTokenInterceptor, provideKeycloak, UserActivityService, withAutoRefreshToken
 } from 'keycloak-angular';
 import {environment} from '../environments/environment';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
+import {dateInterceptor} from './core/interceptors/date.interceptor';
 
 
 export const MY_DATE_FORMATS = {
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
 
     provideHttpClient(
-      withInterceptors([includeBearerTokenInterceptor])
+      withInterceptors([includeBearerTokenInterceptor, dateInterceptor])
     ),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
@@ -53,6 +54,10 @@ export const appConfig: ApplicationConfig = {
     provideCharts(withDefaultRegisterables()),
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideLuxonDateAdapter(MY_DATE_FORMATS),
+    {
+      provide: MAT_LUXON_DATE_ADAPTER_OPTIONS,
+      useValue: { useUtc: true }
+    },
     AutoRefreshTokenService,
     UserActivityService,
     provideKeycloak({

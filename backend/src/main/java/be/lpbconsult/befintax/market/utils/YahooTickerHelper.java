@@ -29,7 +29,7 @@ public class YahooTickerHelper {
         EXCHANGE_SUFFIXES.put("BVL", ".LM");   // Lima
 
         // --- EUROPE DE L'OUEST (Euronext & Co) ---
-        EXCHANGE_SUFFIXES.put("Euronext", ".PA"); // Défaut vers Paris si non spécifié
+        //EXCHANGE_SUFFIXES.put("Euronext", ".PA"); // Défaut vers Paris si non spécifié
         EXCHANGE_SUFFIXES.put("EPA", ".PA");   // Paris
         EXCHANGE_SUFFIXES.put("ASE", ".AT");   // Athènes
         EXCHANGE_SUFFIXES.put("BME", ".MC");   // Madrid
@@ -118,8 +118,9 @@ public class YahooTickerHelper {
                 tickers.add(cleanSymbol + ".DE");
             }
             // Fallback Euronext -> Paris (.PA)
-            else if (isEuronextExchange(upperEx) && !mainTicker.endsWith(".PA")) {
-                tickers.add(cleanSymbol + ".PA");
+            else if (isEuronextExchange(upperEx) && !mainTicker.endsWith(".PA")  && !mainTicker.endsWith(".AS") ) {
+                tickers.add(cleanSymbol + ".PA"); //Paris
+                tickers.add(cleanSymbol + ".AS"); //Amsterdam
             }
             // Fallback Canada -> Toronto (.TO)
             else if (upperEx.equals("TSXV") || upperEx.equals("NEO")) {
@@ -136,7 +137,7 @@ public class YahooTickerHelper {
     }
 
     private static boolean isEuronextExchange(String ex) {
-        return List.of("EAM", "EBR", "ELI", "AMS", "BRU").contains(ex);
+        return List.of("EAM", "EBR", "ELI", "AMS", "BRU", "EURONEXT").contains(ex);
     }
 
     public static String toYahooTicker(String symbol, String exchange) {

@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -41,9 +42,6 @@ public class MarketDataService {
 
                 for (String adjustedSymbol : candidateSymbols) {
                     try {
-                        if ("YAHOO_FINANCE".equals(provider.getProviderName())) {
-                            Thread.sleep(500);
-                        }
 
                         LocalDate endDate = LocalDate.now();
                         LocalDate startdate = endDate.minusDays(90);
@@ -51,6 +49,9 @@ public class MarketDataService {
 
                         if (history != null && !history.isEmpty()) {
                             return history;
+                        }
+                        if ("YAHOO_FINANCE".equals(provider.getProviderName())) {
+                            Thread.sleep(500);
                         }
                     } catch (Exception e) {
                         log.error("Échec du provider {} pour {} : {}. Tentative du candidat suivant...",
@@ -78,6 +79,7 @@ public class MarketDataService {
     @Cacheable(value = "asset-price", key = "{#symbol, #exchangeCode, #valueDate}", unless = "#result == null")
     public BigDecimal getPrice(@NonNull String symbol, @NonNull String exchangeCode,@NonNull LocalDate valueDate) {
         log.info("getPrice({}, {}, {})", symbol, exchangeCode, valueDate);
+        valueDate = getMarketLastOpeningDate(valueDate);
         if (valueDate.equals(END_2025) || valueDate.equals(LocalDate.now())) {
             Optional<InstrumentEntity> instrument = instrumentService.findBySymbolAndExchange(symbol, exchangeCode);
             if (instrument.isPresent()) {
@@ -92,14 +94,20 @@ public class MarketDataService {
 
         for (MarketDataProvider provider : providers) {
             log.info("getPrice({})", provider.getProviderName());
-            try {
-                BigDecimal price = provider.getPrice(symbol, exchangeCode, valueDate);
-                if (price != null) {
-                    updateInstrumentPriceAsync(symbol, exchangeCode, valueDate, price);
-                    return price;
+            List<String> candidateSymbols = getCandidateSymbols(symbol, exchangeCode, provider.getProviderName());
+            for (String adjustedSymbol : candidateSymbols) {
+                try {
+                    BigDecimal price = provider.getPrice(adjustedSymbol, exchangeCode, valueDate);
+                    if (price != null) {
+                        updateInstrumentPriceAsync(symbol, exchangeCode, valueDate, price);
+                        return price;
+                    }
+                    if ("YAHOO_FINANCE".equals(provider.getProviderName())) {
+                        Thread.sleep(500);
+                    }
+                }catch (Exception e) {
+                    log.error("Erreur lors de la récupération du prix pour {} : {}", symbol, e.getMessage());
                 }
-            }catch (Exception e) {
-                log.error("Erreur lors de la récupération du prix pour {} : {}", symbol, e.getMessage());
             }
         }
         throw new IllegalArgumentException("No provider can retrieve price");
@@ -123,5 +131,17 @@ public class MarketDataService {
                 instrumentService.save(instrument);
             }
         });
+    }
+
+    private LocalDate getMarketLastOpeningDate(@NonNull LocalDate valueDate){
+        DayOfWeek day = valueDate.getDayOfWeek();
+
+        if (day == DayOfWeek.SATURDAY) {
+            return valueDate.minusDays(1);
+        } else if (day == DayOfWeek.SUNDAY) {
+            return valueDate.minusDays(2);
+        }
+
+        return valueDate;
     }
 }

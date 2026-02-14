@@ -3,7 +3,7 @@ import { AssetApiService } from '../../../core/services/asset-api.service';
 import { AssetTransactionApiService } from '../../../core/services/asset-transaction-api.service';
 import {Asset, AssetTransaction, TransactionType} from '../../../core/models/asset.model';
 import { signal } from '@angular/core';
-import {firstValueFrom, forkJoin, map} from 'rxjs';
+import {catchError, firstValueFrom, forkJoin, map, of} from 'rxjs';
 import {WalletApiService} from '../../../core/services/wallet-api.service';
 import {Wallet} from '../../../core/models/wallet.model';
 import {MarketDataApiService} from '../../../core/services/market-data-api.service';
@@ -54,6 +54,7 @@ export class WalletService {
   }
 
   addTransaction(assetId: number, dto: AssetTransactionCreateDto) {
+    console.log(dto);
     this.transactionApi.createAssetTransaction(assetId, dto).subscribe((transaction: AssetTransaction) => {
         this.assets.update((assets: Asset[]) =>
           assets.map(asset =>
@@ -86,20 +87,22 @@ export class WalletService {
   refreshAllPrices() {
     const assets = this.assets();
     if (assets.length === 0) return;
-
     const requests = assets.filter(asset => asset.symbol != null).map(asset =>
       this.marketDataService.getPriceLive(asset.symbol!, asset.exchange).pipe(
         map(price => ({
           key: `${asset.symbol}:${asset.exchange}`,
           price
-        }))
+        })),
+        catchError(error => {
+          return of(null);
+        })
       )
     );
 
     forkJoin(requests).subscribe(results => {
       const newPrices: Record<string, number> = {};
       results.forEach(res => {
-        newPrices[res.key] = res.price;
+        if(res) newPrices[res.key] = res.price;
       });
 
       this.marketPrices.set(newPrices);
@@ -141,7 +144,6 @@ export class WalletService {
     this.marketDataService.getPriceLive('EUR=X', 'FOREX').subscribe(rate => {
       if (rate > 0) {
         this.usdEurRate.set(rate);
-        console.log(rate);
       }
     });
   }
